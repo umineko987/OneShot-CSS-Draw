@@ -1,0 +1,17 @@
+{
+  "01-flat-scene": {
+    "image": "01-flat-scene/IMG_20260904_171523.png",
+    "width": 1440,
+    "height": 805
+  },
+  "02-3d-character": {
+    "image": "02-3d-character/Image_1785586456559_992.jpg",
+    "width": 1080,
+    "height": 1920
+  },
+  "03-complex-scene": {
+    "image": "03-complex-scene/1788282455641.png",
+    "width": 1088,
+    "height": 1440
+  }
+}

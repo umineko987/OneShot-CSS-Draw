@@ -1,6 +1,18 @@
-# Local generation environment, credentials, and development-agent configuration.
-/harness/
+# Local credentials, personal configuration, dependencies, and agent state.
+/harness/.agent/
+/harness/config.json
+/harness/node_modules/
+/harness/*.log
 /.pi/
+.env
+.env.*
+!.env.example
+
+# Development tests and their artifacts stay outside the repository.
+/harness/tests/
+/harness/test/
+/harness/**/*.test.*
+/harness/**/*.spec.*
 
 # Only retain each run's original HTML, task prompt, and non-secret metadata.
 # Raw sessions, helper scripts, and duplicate reference snapshots stay local.
