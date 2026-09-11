@@ -1,0 +1,14 @@
+{
+  "caseId": "02-3d-character",
+  "createdAt": "2026-09-11T13:28:39.752Z",
+  "piVersion": "0.85.1",
+  "systemPromptMode": "cwd-only",
+  "transportCompatibility": null,
+  "requestedProvider": "deepseek",
+  "requestedModel": "deepseek-v4-flash",
+  "requestedThinking": "max",
+  "image": "02-3d-character/Image_1785586456559_992.jpg",
+  "width": 1080,
+  "height": 1920,
+  "output": "work/index.html"
+}

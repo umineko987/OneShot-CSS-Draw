@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Character</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            width: 1080px;
+            height: 1920px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, #a8c5dd 0%, #b8d4e8 50%, #c8dff0 100%);
+        }
+        
+        .canvas {
+            width: 1080px;
+            height: 1920px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Background blinds effect */
+        .background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #d0e5f5 0%, #b5d3e8 100%);
+        }
+        
+        .blinds {
+            position: absolute;
+            width: 120%;
+            height: 100%;
+            left: -10%;
+            top: 0;
+            opacity: 0.6;
+            filter: blur(8px);
+        }
+        
+        .blind-slat {
+            position: absolute;
+            width: 150%;
+            height: 35px;
+            background: linear-gradient(180deg, #e8f2fa 0%, #c5dbed 50%, #e0eef8 100%);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            transform: rotate(-15deg);
+            left: -20%;
+        }
+        
+        .blind-slat:nth-child(1) { top: 50px; }
+        .blind-slat:nth-child(2) { top: 130px; }
+        .blind-slat:nth-child(3) { top: 210px; }
+        .blind-slat:nth-child(4) { top: 290px; }
+        .blind-slat:nth-child(5) { top: 370px; }
+        .blind-slat:nth-child(6) { top: 450px; }
+        .blind-slat:nth-child(7) { top: 530px; }
+        .blind-slat:nth-child(8) { top: 610px; }
+        
+        /* Character container */
+        .character {
+            position: absolute;
+            width: 900px;
+            height: 1600px;
+            left: 90px;
+            top: 150px;
+        }
+        
+        /* Neck and shoulders */
+        .neck {
+            position: absolute;
+            width: 140px;
+            height: 180px;
+            left: 380px;
+            top: 600px;
+            background: linear-gradient(180deg, #f5d4d0 0%, #f0ccc8 50%, #ebc4bf 100%);
+            border-radius: 30px;
+            box-shadow: inset -8px 0 12px rgba(0,0,0,0.08);
+        }
+        
+        .shoulder-left {
+            position: absolute;
+            width: 280px;
+            height: 320px;
+            left: 180px;
+            top: 720px;
+            background: linear-gradient(135deg, #fafcfd 0%, #f5f7f9 100%);
+            border-radius: 60% 40% 40% 60% / 50% 50% 50% 50%;
+            transform: rotate(-12deg);
+            box-shadow: inset 10px 10px 20px rgba(180,200,220,0.2);
+        }
+        
+        .shoulder-right {
+            position: absolute;
+            width: 280px;
+            height: 320px;
+            right: 180px;
+            top: 720px;
+            background: linear-gradient(225deg, #fafcfd 0%, #f5f7f9 100%);
+            border-radius: 40% 60% 60% 40% / 50% 50% 50% 50%;
+            transform: rotate(12deg);
+            box-shadow: inset -10px 10px 20px rgba(180,200,220,0.2);
+        }
+        
+        /* Face */
+        .face {
+            position: absolute;
+            width: 480px;
+            height: 520px;
+            left: 210px;
+            top: 220px;
+            background: linear-gradient(180deg, #fce8e5 0%, #f8ddd9 30%, #f5d4d0 60%, #f0ccc8 100%);
+            border-radius: 48% 52% 50% 50% / 45% 45% 55% 55%;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15), inset -15px 10px 25px rgba(0,0,0,0.03);
+        }
+        
+        .face-shadow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 48% 52% 50% 50% / 45% 45% 55% 55%;
+            background: radial-gradient(ellipse at 30% 40%, transparent 40%, rgba(230,190,180,0.12) 70%);
+        }
+        
+        /* Eyes */
+        .eye-left {
+            position: absolute;
+            width: 110px;
+            height: 95px;
+            left: 290px;
+            top: 360px;
+            transform: rotate(-2deg);
+        }
+        
+        .eye-right {
+            position: absolute;
+            width: 110px;
+            height: 95px;
+            right: 290px;
+            top: 360px;
+            transform: rotate(2deg);
+        }
+        
+        .eye-white {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            border-radius: 50% 50% 50% 50% / 55% 55% 45% 45%;
+            box-shadow: inset 0 -2px 4px rgba(0,0,0,0.08);
+        }
+        
+        .iris {
+            position: absolute;
+            width: 70px;
+            height: 72px;
+            left: 20px;
+            top: 12px;
+            background: radial-gradient(circle at 35% 35%, #6fb8e8 0%, #4a9dd5 40%, #2d7fb8 100%);
+            border-radius: 50%;
+            box-shadow: inset 0 3px 8px rgba(0,0,0,0.25);
+        }
+        
+        .pupil {
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            left: 17px;
+            top: 19px;
+            background: #0a1820;
+            border-radius: 50%;
+        }
+        
+        .eye-highlight-1 {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            left: 22px;
+            top: 16px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+        }
+        
+        .eye-highlight-2 {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            right: 20px;
+            bottom: 22px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 50%;
+        }
+        
+        .eye-shadow {
+            position: absolute;
+            width: 120px;
+            height: 30px;
+            left: -5px;
+            top: -8px;
+            background: radial-gradient(ellipse at center, rgba(200,160,150,0.15) 0%, transparent 70%);
+        }
+        
+        /* Eyebrows */
+        .eyebrow-left {
+            position: absolute;
+            width: 85px;
+            height: 18px;
+            left: 295px;
+            top: 325px;
+            background: linear-gradient(90deg, transparent 0%, #2a2020 10%, #1a1515 50%, #2a2020 90%, transparent 100%);
+            border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+            transform: rotate(-5deg);
+            opacity: 0.85;
+        }
+        
+        .eyebrow-right {
+            position: absolute;
+            width: 85px;
+            height: 18px;
+            right: 295px;
+            top: 325px;
+            background: linear-gradient(90deg, transparent 0%, #2a2020 10%, #1a1515 50%, #2a2020 90%, transparent 100%);
+            border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+            transform: rotate(5deg);
+            opacity: 0.85;
+        }
+        
+        /* Nose */
+        .nose {
+            position: absolute;
+            width: 16px;
+            height: 28px;
+            left: 442px;
+            top: 445px;
+            background: linear-gradient(90deg, transparent 0%, rgba(230,180,170,0.25) 100%);
+            border-radius: 0 50% 50% 0;
+        }
+        
+        /* Mouth */
+        .mouth {
+            position: absolute;
+            width: 65px;
+            height: 28px;
+            left: 417px;
+            top: 510px;
+            background: linear-gradient(180deg, rgba(240,170,165,0.3) 0%, rgba(220,140,135,0.4) 100%);
+            border-radius: 0 0 50% 50%;
+            opacity: 0.7;
+        }
+        
+        /* Blush */
+        .blush-left {
+            position: absolute;
+            width: 90px;
+            height: 55px;
+            left: 250px;
+            top: 445px;
+            background: radial-gradient(ellipse at center, rgba(245,180,175,0.35) 0%, transparent 70%);
+        }
+        
+        .blush-right {
+            position: absolute;
+            width: 90px;
+            height: 55px;
+            right: 250px;
+            top: 445px;
+            background: radial-gradient(ellipse at center, rgba(245,180,175,0.35) 0%, transparent 70%);
+        }
+        
+        /* Cat ears */
+        .ear-left {
+            position: absolute;
+            width: 140px;
+            height: 160px;
+            left: 185px;
+            top: 85px;
+            transform: rotate(-18deg);
+            filter: drop-shadow(0 8px 15px rgba(0,0,0,0.25));
+        }
+        
+        .ear-right {
+            position: absolute;
+            width: 140px;
+            height: 160px;
+            right: 185px;
+            top: 85px;
+            transform: rotate(18deg);
+            filter: drop-shadow(0 8px 15px rgba(0,0,0,0.25));
+        }
+        
+        .ear-outer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1515 0%, #0d0a0a 100%);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+        
+        .ear-inner {
+            position: absolute;
+            width: 70px;
+            height: 85px;
+            left: 35px;
+            top: 55px;
+            background: linear-gradient(135deg, #f5f0ed 0%, #e8e3e0 100%);
+            clip-path: polygon(50% 0%, 15% 100%, 85% 100%);
+        }
+        
+        /* Headband with flower */
+        .headband {
+            position: absolute;
+            width: 450px;
+            height: 45px;
+            left: 225px;
+            top: 260px;
+            background: linear-gradient(180deg, #2a2525 0%, #1a1515 50%, #2a2525 100%);
+            border-radius: 50% 50% 45% 45% / 40% 40% 60% 60%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3), inset 0 1px 2px rgba(255,255,255,0.1);
+        }
+        
+        .flower-base {
+            position: absolute;
+            width: 85px;
+            height: 85px;
+            left: 340px;
+            top: 285px;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2));
+        }
+        
+        /* Hair - back layer */
+        .hair-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .hair-back-left {
+            position: absolute;
+            width: 320px;
+            height: 750px;
+            left: 140px;
+            top: 180px;
+            background: linear-gradient(125deg, #2a2020 0%, #1a1515 40%, #0d0a0a 100%);
+            border-radius: 45% 20% 35% 40% / 25% 30% 45% 50%;
+            transform: rotate(-8deg);
+            box-shadow: inset 15px 0 25px rgba(0,0,0,0.3);
+        }
+        
+        .hair-back-right {
+            position: absolute;
+            width: 320px;
+            height: 750px;
+            right: 140px;
+            top: 180px;
+            background: linear-gradient(235deg, #2a2020 0%, #1a1515 40%, #0d0a0a 100%);
+            border-radius: 20% 45% 40% 35% / 30% 25% 50% 45%;
+            transform: rotate(8deg);
+            box-shadow: inset -15px 0 25px rgba(0,0,0,0.3);
+        }
+        
+        /* Hair - top */
+        .hair-top {
+            position: absolute;
+            width: 520px;
+            height: 380px;
+            left: 190px;
+            top: 120px;
+            background: linear-gradient(180deg, #1a1515 0%, #2a2020 50%, #1a1515 100%);
+            border-radius: 50% 50% 48% 52% / 45% 45% 55% 55%;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
+        .hair-shine {
+            position: absolute;
+            width: 180px;
+            height: 100px;
+            left: 180px;
+            top: 85px;
+            background: radial-gradient(ellipse at center, rgba(80,75,75,0.4) 0%, transparent 60%);
+            border-radius: 50%;
+            transform: rotate(-15deg);
+        }
+        
+        /* Hair bangs */
+        .bangs {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .bang-1 {
+            position: absolute;
+            width: 95px;
+            height: 220px;
+            left: 365px;
+            top: 240px;
+            background: linear-gradient(165deg, #2a2020 0%, #1a1515 60%, #0d0a0a 100%);
+            border-radius: 40% 60% 35% 65% / 30% 25% 75% 70%;
+            transform: rotate(-3deg);
+            box-shadow: 2px 4px 8px rgba(0,0,0,0.25);
+        }
+        
+        .bang-2 {
+            position: absolute;
+            width: 85px;
+            height: 210px;
+            left: 440px;
+            top: 235px;
+            background: linear-gradient(180deg, #2a2020 0%, #1a1515 60%, #0d0a0a 100%);
+            border-radius: 45% 55% 40% 60% / 28% 28% 72% 72%;
+            transform: rotate(2deg);
+            box-shadow: 2px 4px 8px rgba(0,0,0,0.25);
+        }
+        
+        .bang-3 {
+            position: absolute;
+            width: 80px;
+            height: 195px;
+            left: 295px;
+            top: 245px;
+            background: linear-gradient(155deg, #2a2020 0%, #1a1515 60%, #0d0a0a 100%);
+            border-radius: 38% 62% 33% 67% / 32% 28% 72% 68%;
+            transform: rotate(-8deg);
+            box-shadow: 2px 4px 8px rgba(0,0,0,0.25);
+        }
+        
+        .bang-4 {
+            position: absolute;
+            width: 78px;
+            height: 200px;
+            right: 310px;
+            top: 245px;
+            background: linear-gradient(205deg, #2a2020 0%, #1a1515 60%, #0d0a0a 100%);
+            border-radius: 62% 38% 67% 33% / 28% 32% 68% 72%;
+            transform: rotate(8deg);
+            box-shadow: -2px 4px 8px rgba(0,0,0,0.25);
+        }
+        
+        /* Hair side strands */
+        .hair-strand-left {
+            position: absolute;
+            width: 180px;
+            height: 580px;
+            left: 155px;
+            top: 320px;
+            background: linear-gradient(135deg, #2a2020 0%, #1a1515 50%, #0d0a0a 100%);
+            border-radius: 45% 25% 30% 60% / 20% 25% 55% 65%;
+            transform: rotate(-12deg);
+            box-shadow: 3px 6px 12px rgba(0,0,0,0.3);
+        }
+        
+        .hair-strand-right {
+            position: absolute;
+            width: 180px;
+            height: 580px;
+            right: 155px;
+            top: 320px;
+            background: linear-gradient(225deg, #2a2020 0%, #1a1515 50%, #0d0a0a 100%);
+            border-radius: 25% 45% 60% 30% / 25% 20% 65% 55%;
+            transform: rotate(12deg);
+            box-shadow: -3px 6px 12px rgba(0,0,0,0.3);
+        }
+        
+        /* Clothing details */
+        .collar {
+            position: absolute;
+            width: 200px;
+            height: 100px;
+            left: 350px;
+            top: 760px;
+            background: linear-gradient(180deg, #fafcfd 0%, #f0f4f7 100%);
+            border-radius: 50% 50% 60% 60% / 30% 30% 70% 70%;
+            box-shadow: inset 0 8px 15px rgba(180,200,220,0.25);
+        }
+        
+        /* Accessories on headband */
+        .band-ornament-left {
+            position: absolute;
+            width: 18px;
+            height: 22px;
+            left: 280px;
+            top: 268px;
+            background: linear-gradient(135deg, #555 0%, #333 100%);
+            clip-path: polygon(50% 0%, 100% 35%, 80% 100%, 20% 100%, 0% 35%);
+            opacity: 0.7;
+        }
+        
+        .band-ornament-right {
+            position: absolute;
+            width: 18px;
+            height: 22px;
+            right: 280px;
+            top: 268px;
+            background: linear-gradient(135deg, #555 0%, #333 100%);
+            clip-path: polygon(50% 0%, 100% 35%, 80% 100%, 20% 100%, 0% 35%);
+            opacity: 0.7;
+        }
+        
+        /* Additional hair highlights */
+        .hair-highlight-1 {
+            position: absolute;
+            width: 90px;
+            height: 160px;
+            left: 310px;
+            top: 180px;
+            background: linear-gradient(155deg, rgba(80,75,75,0.35) 0%, transparent 70%);
+            border-radius: 40% 60% 50% 50% / 40% 40% 60% 60%;
+            transform: rotate(-12deg);
+        }
+        
+        .hair-highlight-2 {
+            position: absolute;
+            width: 70px;
+            height: 140px;
+            right: 340px;
+            top: 190px;
+            background: linear-gradient(205deg, rgba(80,75,75,0.3) 0%, transparent 70%);
+            border-radius: 60% 40% 50% 50% / 40% 40% 60% 60%;
+            transform: rotate(10deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="canvas">
+        <!-- Background -->
+        <div class="background">
+            <div class="blinds">
+                <div class="blind-slat"></div>
+                <div class="blind-slat"></div>
+                <div class="blind-slat"></div>
+                <div class="blind-slat"></div>
+                <div class="blind-slat"></div>
+                <div class="blind-slat"></div>
+                <div class="blind-slat"></div>
+                <div class="blind-slat"></div>
+            </div>
+        </div>
+        
+        <!-- Character -->
+        <div class="character">
+            <!-- Hair back layer -->
+            <div class="hair-back">
+                <div class="hair-back-left"></div>
+                <div class="hair-back-right"></div>
+            </div>
+            
+            <!-- Shoulders and clothing -->
+            <div class="shoulder-left"></div>
+            <div class="shoulder-right"></div>
+            <div class="collar"></div>
+            
+            <!-- Neck -->
+            <div class="neck"></div>
+            
+            <!-- Face -->
+            <div class="face">
+                <div class="face-shadow"></div>
+                
+                <!-- Blush -->
+                <div class="blush-left"></div>
+                <div class="blush-right"></div>
+                
+                <!-- Eyes -->
+                <div class="eye-left">
+                    <div class="eye-shadow"></div>
+                    <div class="eye-white">
+                        <div class="iris">
+                            <div class="pupil"></div>
+                            <div class="eye-highlight-1"></div>
+                            <div class="eye-highlight-2"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="eye-right">
+                    <div class="eye-shadow"></div>
+                    <div class="eye-white">
+                        <div class="iris">
+                            <div class="pupil"></div>
+                            <div class="eye-highlight-1"></div>
+                            <div class="eye-highlight-2"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Eyebrows -->
+                <div class="eyebrow-left"></div>
+                <div class="eyebrow-right"></div>
+                
+                <!-- Nose -->
+                <div class="nose"></div>
+                
+                <!-- Mouth -->
+                <div class="mouth"></div>
+            </div>
+            
+            <!-- Cat ears -->
+            <div class="ear-left">
+                <div class="ear-outer"></div>
+                <div class="ear-inner"></div>
+            </div>
+            
+            <div class="ear-right">
+                <div class="ear-outer"></div>
+                <div class="ear-inner"></div>
+            </div>
+            
+            <!-- Hair top -->
+            <div class="hair-top">
+                <div class="hair-shine"></div>
+                <div class="hair-highlight-1"></div>
+                <div class="hair-highlight-2"></div>
+            </div>
+            
+            <!-- Headband -->
+            <div class="headband"></div>
+            <div class="band-ornament-left"></div>
+            <div class="band-ornament-right"></div>
+            
+            <!-- Flower accessory -->
+            <div class="flower-base">
+                <svg width="85" height="85" viewBox="0 0 85 85" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Flower petals -->
+                    <g>
+                        <!-- Center petal top -->
+                        <ellipse cx="42.5" cy="25" rx="11" ry="16" fill="#f8f5f2" opacity="0.95"/>
+                        <!-- Right petal -->
+                        <ellipse cx="60" cy="38" rx="11" ry="16" fill="#f8f5f2" opacity="0.95" transform="rotate(72 60 38)"/>
+                        <!-- Bottom right petal -->
+                        <ellipse cx="52" cy="58" rx="11" ry="16" fill="#f8f5f2" opacity="0.95" transform="rotate(144 52 58)"/>
+                        <!-- Bottom left petal -->
+                        <ellipse cx="33" cy="58" rx="11" ry="16" fill="#f8f5f2" opacity="0.95" transform="rotate(-144 33 58)"/>
+                        <!-- Left petal -->
+                        <ellipse cx="25" cy="38" rx="11" ry="16" fill="#f8f5f2" opacity="0.95" transform="rotate(-72 25 38)"/>
+                    </g>
+                    
+                    <!-- Flower center -->
+                    <circle cx="42.5" cy="42.5" r="10" fill="#e8e3df"/>
+                    <circle cx="42.5" cy="42.5" r="6" fill="#d5cfc9"/>
+                    
+                    <!-- Small decorative flowers -->
+                    <g transform="translate(58, 8)">
+                        <circle cx="0" cy="0" r="5" fill="#f0ebe6" opacity="0.8"/>
+                        <circle cx="-2" cy="-3" r="2.5" fill="#e8e3df" opacity="0.7"/>
+                        <circle cx="3" cy="-2" r="2.5" fill="#e8e3df" opacity="0.7"/>
+                        <circle cx="2" cy="3" r="2.5" fill="#e8e3df" opacity="0.7"/>
+                        <circle cx="-3" cy="2" r="2.5" fill="#e8e3df" opacity="0.7"/>
+                    </g>
+                    
+                    <g transform="translate(65, 18)">
+                        <circle cx="0" cy="0" r="3.5" fill="#f0ebe6" opacity="0.7"/>
+                        <circle cx="-1.5" cy="-2" r="1.5" fill="#e8e3df" opacity="0.6"/>
+                        <circle cx="2" cy="-1.5" r="1.5" fill="#e8e3df" opacity="0.6"/>
+                        <circle cx="1.5" cy="2" r="1.5" fill="#e8e3df" opacity="0.6"/>
+                        <circle cx="-2" cy="1.5" r="1.5" fill="#e8e3df" opacity="0.6"/>
+                    </g>
+                </svg>
+            </div>
+            
+            <!-- Bangs -->
+            <div class="bangs">
+                <div class="bang-3"></div>
+                <div class="bang-1"></div>
+                <div class="bang-2"></div>
+                <div class="bang-4"></div>
+            </div>
+            
+            <!-- Hair side strands -->
+            <div class="hair-strand-left"></div>
+            <div class="hair-strand-right"></div>
+        </div>
+    </div>
+</body>
+</html>

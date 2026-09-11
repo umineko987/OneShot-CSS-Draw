@@ -1,0 +1,13 @@
+{
+  "caseId": "02-3d-character",
+  "createdAt": "2026-09-06T07:22:48.186Z",
+  "piVersion": "0.85.1",
+  "systemPromptMode": "cwd-only",
+  "requestedProvider": "openrouter",
+  "requestedModel": "google/gemini-3.1-pro-preview",
+  "requestedThinking": "high",
+  "image": "02-3d-character/Image_1785586456559_992.jpg",
+  "width": 1080,
+  "height": 1920,
+  "output": "work/index.html"
+}

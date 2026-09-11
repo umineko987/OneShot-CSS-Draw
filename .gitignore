@@ -1,0 +1,11 @@
+# Local generation environment, credentials, and development-agent configuration.
+/harness/
+/.pi/
+
+# Only retain each run's original HTML, task prompt, and non-secret metadata.
+# Raw sessions, helper scripts, and duplicate reference snapshots stay local.
+/runs/**
+!/runs/**/
+!/runs/*/*/*/meta.json
+!/runs/*/*/*/prompt.txt
+!/runs/*/*/*/work/index.html

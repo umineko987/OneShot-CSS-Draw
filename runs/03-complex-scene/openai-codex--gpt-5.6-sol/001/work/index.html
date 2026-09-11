@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1088, initial-scale=1">
+<title>Summer meadow</title>
+<style>
+  html,body{margin:0;padding:0;width:1088px;height:1440px;overflow:hidden;background:#5f7948}
+  svg{display:block;width:1088px;height:1440px}
+  .ink{stroke:#515449;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+  .fine{fill:none;stroke:#73786b;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+  .hairline{fill:none;stroke:#969d8d;stroke-width:1.45;stroke-linecap:round;opacity:.72}
+  .woodline{fill:none;stroke:#755f36;stroke-width:2;stroke-linecap:round;opacity:.45}
+  .grassline{fill:none;stroke-linecap:round;stroke-linejoin:round}
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1088 1440" aria-label="A silver-haired girl resting in a sunlit summer meadow">
+<defs>
+  <linearGradient id="meadow" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#b2b65c"/>
+    <stop offset=".32" stop-color="#87a158"/>
+    <stop offset=".7" stop-color="#648348"/>
+    <stop offset="1" stop-color="#3f6c4c"/>
+  </linearGradient>
+  <radialGradient id="sunwash" cx="38%" cy="47%" r="70%">
+    <stop offset="0" stop-color="#f5f58e" stop-opacity=".95"/>
+    <stop offset=".47" stop-color="#d8dd70" stop-opacity=".35"/>
+    <stop offset="1" stop-color="#728d4d" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="caseTop" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#f4df9a"/>
+    <stop offset=".55" stop-color="#e6c983"/>
+    <stop offset="1" stop-color="#b59e64"/>
+  </linearGradient>
+  <linearGradient id="caseSide" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#8c8057"/>
+    <stop offset="1" stop-color="#685e3e"/>
+  </linearGradient>
+  <linearGradient id="blanket" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#f2c88f"/>
+    <stop offset=".5" stop-color="#eab78b"/>
+    <stop offset="1" stop-color="#c99873"/>
+  </linearGradient>
+  <linearGradient id="wood" x1="0" y1="0" x2="1" y2=".2">
+    <stop offset="0" stop-color="#a87d3b"/>
+    <stop offset=".28" stop-color="#dfb862"/>
+    <stop offset=".63" stop-color="#b98c45"/>
+    <stop offset="1" stop-color="#705c36"/>
+  </linearGradient>
+  <linearGradient id="woodDark" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#627044"/>
+    <stop offset="1" stop-color="#374e3c"/>
+  </linearGradient>
+  <linearGradient id="hair" x1=".2" y1="0" x2=".85" y2="1">
+    <stop offset="0" stop-color="#d9dac8"/>
+    <stop offset=".35" stop-color="#c8cdbd"/>
+    <stop offset=".72" stop-color="#e0dfca"/>
+    <stop offset="1" stop-color="#adb8a5"/>
+  </linearGradient>
+  <linearGradient id="hairShade" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#b3bba9"/>
+    <stop offset=".55" stop-color="#d9dac9"/>
+    <stop offset="1" stop-color="#9faa9b"/>
+  </linearGradient>
+  <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#e7c3a7"/>
+    <stop offset=".6" stop-color="#d8aa91"/>
+    <stop offset="1" stop-color="#c7927e"/>
+  </linearGradient>
+  <radialGradient id="skinLight" cx="35%" cy="30%" r="80%">
+    <stop offset="0" stop-color="#f0ccb0"/>
+    <stop offset=".72" stop-color="#d8aa91"/>
+    <stop offset="1" stop-color="#c98e7b"/>
+  </radialGradient>
+  <linearGradient id="shirt" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#c8d1c7"/>
+    <stop offset=".47" stop-color="#dce0d1"/>
+    <stop offset="1" stop-color="#aeb9ad"/>
+  </linearGradient>
+  <linearGradient id="skirt" x1=".2" y1="0" x2=".8" y2="1">
+    <stop offset="0" stop-color="#c5cec1"/>
+    <stop offset=".5" stop-color="#e0e3d2"/>
+    <stop offset="1" stop-color="#b0baae"/>
+  </linearGradient>
+  <linearGradient id="stockingA" gradientUnits="userSpaceOnUse" x1="396" y1="690" x2="253" y2="1260">
+    <stop offset="0" stop-color="#30333a"/>
+    <stop offset=".25" stop-color="#55575a"/>
+    <stop offset=".58" stop-color="#77746b"/>
+    <stop offset="1" stop-color="#847966"/>
+  </linearGradient>
+  <linearGradient id="stockingB" gradientUnits="userSpaceOnUse" x1="519" y1="776" x2="265" y2="1330">
+    <stop offset="0" stop-color="#414147"/>
+    <stop offset=".24" stop-color="#66645e"/>
+    <stop offset=".7" stop-color="#7e7567"/>
+    <stop offset="1" stop-color="#8d7b68"/>
+  </linearGradient>
+  <radialGradient id="eye" cx="35%" cy="28%" r="70%">
+    <stop offset="0" stop-color="#d4f0ec"/>
+    <stop offset=".27" stop-color="#76aac0"/>
+    <stop offset=".7" stop-color="#4d7994"/>
+    <stop offset="1" stop-color="#385667"/>
+  </radialGradient>
+  <radialGradient id="marble" cx="30%" cy="25%" r="70%">
+    <stop offset="0" stop-color="#d7ffff"/>
+    <stop offset=".22" stop-color="#75ccdc"/>
+    <stop offset=".65" stop-color="#267a9c"/>
+    <stop offset="1" stop-color="#245067"/>
+  </radialGradient>
+  <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+    <feGaussianBlur stdDeviation="14"/>
+  </filter>
+  <filter id="smallBlur" x="-30%" y="-30%" width="160%" height="160%">
+    <feGaussianBlur stdDeviation="5"/>
+  </filter>
+  <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+    <feGaussianBlur stdDeviation="4" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="grain" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency=".62" numOctaves="2" seed="17" result="n"/>
+    <feColorMatrix in="n" values=".7 0 0 0 .15  0 .72 0 0 .14  0 0 .55 0 .08  0 0 0 .13 0"/>
+  </filter>
+  <pattern id="grassPattern" width="112" height="96" patternUnits="userSpaceOnUse">
+    <path d="M10 82q4-19 1-31M12 72q12-17 17-18M44 89q-3-24-13-35M45 82q10-26 19-32M75 92q2-20-4-39M77 79q12-16 17-18M98 93q-1-13-8-23" fill="none" stroke="#d0d76d" stroke-width="2.2" stroke-linecap="round" opacity=".37"/>
+    <path d="M22 91q4-17 15-29M58 96q-2-19 3-31M86 93q4-22 14-34M4 40q8-14 11-27M52 38q-5-15-4-27" fill="none" stroke="#365f39" stroke-width="2.7" stroke-linecap="round" opacity=".22"/>
+    <path d="M26 31l8-10-2 15zM82 49l7-13 1 16zM101 25l-8-11 11 8z" fill="#587740" opacity=".18"/>
+  </pattern>
+  <symbol id="tuft" viewBox="0 0 60 65">
+    <path d="M28 64Q24 32 6 13M29 61Q33 25 46 3M30 62Q43 39 58 31M27 61Q16 40 15 24M32 63Q34 45 29 18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="flower" viewBox="0 0 30 30">
+    <ellipse cx="15" cy="7" rx="5" ry="8" fill="#eef0dd"/>
+    <ellipse cx="23" cy="13" rx="7" ry="5" fill="#f5f2df"/>
+    <ellipse cx="20" cy="22" rx="6" ry="7" fill="#e5eadc"/>
+    <ellipse cx="10" cy="22" rx="6" ry="7" fill="#f5f3e3"/>
+    <ellipse cx="7" cy="13" rx="7" ry="5" fill="#e7ebdc"/>
+    <circle cx="15" cy="15" r="3.2" fill="#c6a84d"/>
+  </symbol>
+  <symbol id="blueflower" viewBox="0 0 30 30">
+    <ellipse cx="15" cy="6.5" rx="5.5" ry="8" fill="#c6d4cf"/>
+    <ellipse cx="23" cy="13" rx="7" ry="5.5" fill="#d7dfd7"/>
+    <ellipse cx="20" cy="22" rx="6" ry="7" fill="#b9cac8"/>
+    <ellipse cx="10" cy="22" rx="6" ry="7" fill="#dce2d8"/>
+    <ellipse cx="7" cy="13" rx="7" ry="5" fill="#b9c9c7"/>
+    <circle cx="15" cy="15" r="3" fill="#c0ad67"/>
+  </symbol>
+  <symbol id="tinyflower" viewBox="0 0 20 20">
+    <circle cx="10" cy="4.5" r="4" fill="#f2f0de"/><circle cx="15" cy="8" r="4" fill="#eeefdf"/><circle cx="13" cy="14" r="4" fill="#e4e8dc"/><circle cx="7" cy="14" r="4" fill="#f3f1df"/><circle cx="5" cy="8" r="4" fill="#e7ebde"/><circle cx="10" cy="9.5" r="2" fill="#c6a74d"/>
+  </symbol>
+  <symbol id="butterfly" viewBox="0 0 80 70">
+    <g fill="#f8fff3" fill-opacity=".18" stroke="#f5fff3" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M37 34C20 3 4 9 12 27c5 11 15 14 25 12C18 41 9 54 17 59c10 6 21-8 23-20"/>
+      <path d="M43 34C57 5 75 10 68 27c-4 10-15 14-25 12 18 4 26 17 18 22-10 5-19-9-21-22"/>
+      <path d="M40 30q-3 17 1 31M38 31q-9-10-13-12M43 30q8-10 12-12" fill="none"/>
+    </g>
+  </symbol>
+</defs>
+
+<!-- meadow and broad pools of summer light -->
+<rect width="1088" height="1440" fill="url(#meadow)"/>
+<path d="M0 0H664c-18 76-67 122-139 160-95 50-161 76-215 139C212 415 139 467 0 466Z" fill="#dce278" opacity=".55"/>
+<path d="M0 785c117 18 190 73 276 78 93 6 151-37 250-43 93-6 167 54 189 147 28 116-28 221-57 317-18 60-11 108 10 156H0Z" fill="#eced79" opacity=".88"/>
+<ellipse cx="385" cy="527" rx="474" ry="491" fill="url(#sunwash)" opacity=".44"/>
+<path d="M694 0c120 57 185 85 241 70 57-16 108-28 153-17v411c-70-40-107-93-182-98-91-6-151 60-223 41-61-16-78-89-61-153 21-80 93-124 72-254Z" fill="#537741" opacity=".38"/>
+<path d="M755 974c104-58 222-90 333-61v527H621c39-56 70-129 75-206 7-103-20-194 59-260Z" fill="#2f6249" opacity=".32"/>
+<rect width="1088" height="1440" fill="url(#grassPattern)" opacity=".8"/>
+
+<!-- leaf-shaped shadows -->
+<g fill="#294f37" opacity=".28" filter="url(#smallBlur)">
+  <path d="M362-18c15 57 17 117 45 160 20 31 63 24 84 56 19 30-13 59-51 64-43 6-98-6-125 25-26 30-16 72-63 87-35 11-73-2-104-11l30-180z"/>
+  <path d="M478 18c36 1 58 31 45 53-12 21-47 19-52 45-5 25 36 33 20 57-13 20-45 8-62-3-31-19-47-68-28-101 16-29 42-51 77-51z"/>
+  <path d="M811 61c34-15 52 4 39 27-9 17-29 25-22 44 9 23 43 4 57 23 14 20-10 45-29 52-42 15-95-16-105-54-9-34 28-78 60-92z"/>
+  <path d="M923 326c45-16 89 2 95 37 5 30-26 47-23 72 4 27 43 38 30 64-15 28-67 14-89-6-47-43-69-145-13-167z"/>
+  <path d="M43 486c42-10 75 15 75 45 0 34-42 35-52 64-11 33 24 59 2 86-21 26-68-3-85-24V503c17-8 35-13 60-17z"/>
+  <path d="M942 1123c49-13 106 10 146 53v264H846c-14-48-8-111 15-165 22-52 30-138 81-152z"/>
+</g>
+<g fill="#284a30" opacity=".32">
+  <circle cx="459" cy="92" r="18"/><circle cx="487" cy="83" r="12"/><circle cx="429" cy="119" r="13"/>
+  <circle cx="415" cy="226" r="15"/><circle cx="453" cy="206" r="9"/><circle cx="493" cy="260" r="12"/>
+  <circle cx="981" cy="104" r="10"/><circle cx="1034" cy="124" r="17"/><circle cx="903" cy="87" r="8"/>
+  <circle cx="95" cy="586" r="14"/><circle cx="132" cy="560" r="10"/><circle cx="55" cy="615" r="8"/>
+</g>
+
+<!-- scattered background blades -->
+<g color="#d7dc73" opacity=".65">
+ <use href="#tuft" x="494" y="42" width="48" height="58"/><use href="#tuft" x="538" y="86" width="62" height="73"/>
+ <use href="#tuft" x="646" y="42" width="60" height="74"/><use href="#tuft" x="842" y="84" width="45" height="58"/>
+ <use href="#tuft" x="900" y="18" width="64" height="78"/><use href="#tuft" x="373" y="157" width="50" height="65"/>
+ <use href="#tuft" x="512" y="230" width="52" height="64"/><use href="#tuft" x="951" y="379" width="56" height="70"/>
+</g>
+<g color="#355f38" opacity=".75">
+ <use href="#tuft" x="418" y="60" width="65" height="82"/><use href="#tuft" x="684" y="102" width="60" height="76"/>
+ <use href="#tuft" x="747" y="40" width="48" height="64"/><use href="#tuft" x="895" y="149" width="64" height="80"/>
+ <use href="#tuft" x="135" y="426" width="62" height="76"/><use href="#tuft" x="954" y="550" width="65" height="80"/>
+ <use href="#tuft" x="68" y="736" width="54" height="68"/><use href="#tuft" x="929" y="781" width="65" height="84"/>
+</g>
+
+<!-- picnic cloth in lower left -->
+<path d="M0 881C91 913 180 984 269 1050l107 104-91 177-94 18L0 1265Z" fill="#9f755e" opacity=".22" filter="url(#softShadow)"/>
+<path d="M0 894L362 1164l-97 169L0 1265Z" fill="url(#blanket)" stroke="#b28561" stroke-width="2"/>
+<path d="M0 918l340 253-13 23L0 954Z" fill="#f8d69a" opacity=".74"/>
+<path d="M0 925l338 251" fill="none" stroke="#9f7357" stroke-width="2" opacity=".6"/>
+<path d="M0 1067c71 7 138 38 185 83 37 35 58 91 88 134M56 930c45 51 84 106 143 132M0 1194c70 10 145 60 180 118" fill="none" stroke="#d49c7d" stroke-width="4" opacity=".25"/>
+<path d="M17 968c40 1 63 20 72 47-32-18-56-19-89-13M97 1108c42 2 70 23 77 57-33-22-57-27-87-19" fill="#f5d5a7" opacity=".28"/>
+
+<!-- old fence beneath the figure -->
+<g class="ink">
+  <path d="M674 1115L1009 1057l20 102-350 72Z" fill="url(#woodDark)" stroke="#46543c"/>
+  <path d="M705 1138l274-48M719 1177l255-47" class="woodline"/>
+  <path d="M847 737l241 211v74L823 792Z" fill="url(#wood)" stroke="#685638"/>
+  <path d="M875 752l213 195M853 776l215 218" class="woodline"/>
+  <path d="M846 692l40 31-124 717H650l138-665Z" fill="url(#wood)" stroke="#66553a"/>
+  <path d="M846 692l40 31-52 54-46-2Z" fill="#e0b45d" stroke="#705a35"/>
+  <path d="M834 777l52-54-124 717h-49Z" fill="#806a3e" opacity=".48" stroke="none"/>
+  <path d="M803 798c-23 132-48 268-70 400-13 75-20 151-32 226M832 805c-19 113-36 230-60 342M853 739c-10 8-19 14-30 17" class="woodline"/>
+</g>
+
+<!-- suitcase shadow and travel case -->
+<path d="M0 93c105-64 292-20 401 71 68 57 33 155-41 218-89 75-219 99-360 71Z" fill="#31472f" opacity=".28" filter="url(#softShadow)"/>
+<g transform="translate(-275 150) rotate(-30) scale(1.08 1.067)">
+  <rect x="0" y="23" width="560" height="333" rx="9" fill="url(#caseSide)" stroke="#5b5338" stroke-width="3"/>
+  <rect x="0" y="288" width="560" height="68" fill="#756a48" stroke="#554d35" stroke-width="3"/>
+  <path d="M5 310h550M7 338h545" fill="none" stroke="#a08d5a" stroke-width="2" opacity=".55"/>
+  <rect width="560" height="300" rx="8" fill="url(#caseTop)" stroke="#6e6547" stroke-width="3"/>
+  <rect x="0" y="28" width="560" height="27" fill="#d99867" opacity=".88" stroke="#94684e" stroke-width="2"/>
+  <rect x="0" y="247" width="560" height="31" fill="#69654d" opacity=".9" stroke="#4f4b3b" stroke-width="2"/>
+  <rect x="72" y="-4" width="29" height="310" fill="#62604a" opacity=".92" stroke="#49483b" stroke-width="2"/>
+  <rect x="482" y="-3" width="31" height="311" fill="#6a6145" opacity=".98" stroke="#4d4935" stroke-width="2"/>
+  <path d="M10 8h538M10 291h538" fill="none" stroke="#fff1b4" stroke-width="2" opacity=".35"/>
+  <!-- corner guards -->
+  <path d="M0 0h45v13L15 43H0ZM560 0h-42v14l25 30h17ZM0 300v-43h16l30 27v16ZM560 300v-43h-15l-28 27v16Z" fill="#5f5840" stroke="#494433" stroke-width="2"/>
+  <!-- stickers -->
+  <g opacity=".84">
+    <rect x="122" y="91" width="78" height="42" rx="2" fill="#dce2a1" transform="rotate(8 161 112)"/>
+    <path d="M132 120l19-20 16 16 12-8 14 18" fill="#eef2cb" opacity=".7"/>
+    <rect x="170" y="150" width="64" height="45" fill="#77a9a8" transform="rotate(-4 202 172)"/>
+    <path d="M175 181l19-22 11 10 11-8 14 22" fill="#d7d8b1" opacity=".7"/>
+    <rect x="342" y="176" width="81" height="48" rx="3" fill="#69969a" transform="rotate(4 382 200)"/>
+    <circle cx="363" cy="192" r="5" fill="#8b7059"/><path d="M350 216l18-18 16 11 14-17 19 25" fill="#bdc5a6" opacity=".62"/>
+    <rect x="247" y="213" width="70" height="34" rx="2" fill="#597e7f" transform="rotate(7 282 230)"/>
+    <path d="M254 233h52m-45-11 8 7 10-10 14 15" fill="none" stroke="#cbd2b4" stroke-width="3" opacity=".58"/>
+    <rect x="91" y="203" width="61" height="30" fill="#625f51" transform="rotate(-5 122 218)"/>
+    <path d="M99 212q9 10 18 0m7 10q9-11 17-1" fill="none" stroke="#c6b98c" stroke-width="3"/>
+    <circle cx="343" cy="171" r="24" fill="#f4e4b5" stroke="#fff1ca" stroke-width="3"/>
+    <circle cx="343" cy="171" r="18" fill="#cb7457"/>
+    <path d="M343 153v36M327 171h33M331 159l24 24M355 159l-24 24" stroke="#f4d2a2" stroke-width="2"/>
+    <path d="M225 71q16-13 34-4l-6 6q17 7 27 20-25 1-45-12l4-5z" fill="#b39055" stroke="#856d45" stroke-width="2"/>
+    <path d="M230 74q-8-6-8-13m12 16-14 4m37-8 4-10m-10 12 13 4" fill="none" stroke="#8d7549" stroke-width="2"/>
+    <path d="M215 160q6 2 9-5t9-4m-14 20q6 3 9-5t9-4m72 71q6 4 10-4t10-2" fill="none" stroke="#7e7955" stroke-width="3"/>
+  </g>
+  <!-- leather handle -->
+  <g transform="translate(364 -5)">
+    <rect x="0" y="0" width="18" height="91" rx="9" fill="#ae8b54" stroke="#766540" stroke-width="2"/>
+    <circle cx="9" cy="11" r="2.5" fill="#e5bb6f"/><circle cx="9" cy="80" r="2.5" fill="#e5bb6f"/>
+  </g>
+  <path d="M526 23q20 16 0 35M526 242q21 17 0 36" fill="none" stroke="#3f4335" stroke-width="7"/>
+</g>
+<g fill="#45513b" opacity=".2" filter="url(#smallBlur)">
+  <ellipse cx="18" cy="18" rx="34" ry="22"/><ellipse cx="88" cy="2" rx="24" ry="19"/>
+  <ellipse cx="214" cy="3" rx="27" ry="20"/><ellipse cx="235" cy="19" rx="18" ry="13"/>
+  <ellipse cx="366" cy="44" rx="25" ry="36"/><circle cx="33" cy="324" r="19"/>
+  <path d="M283 250c25-12 56-4 64 17 7 20-14 40-43 39-25-1-41-16-34-31 2-10 6-19 13-25Z"/>
+</g>
+<!-- raised leather grip on the case lid -->
+<g>
+  <path d="M225 99L279 46" fill="none" stroke="#6d6041" stroke-width="17" stroke-linecap="round"/>
+  <path d="M225 99L279 46" fill="none" stroke="#b28b55" stroke-width="13" stroke-linecap="round"/>
+  <circle cx="230" cy="94" r="2.8" fill="#e2b66c"/><circle cx="274" cy="51" r="2.8" fill="#e2b66c"/>
+</g>
+
+<!-- tossed cup at the top -->
+<g transform="rotate(19 768 25)" class="ink">
+  <path d="M709-12h102l-10 65c-2 14-18 25-25 25h-27c-8 0-20-11-22-23Z" fill="#ede8d3"/>
+  <ellipse cx="760" cy="-11" rx="51" ry="13" fill="#d0c9ae"/>
+  <path d="M798-6l8 8-8 55c-3 11-9 19-18 21" fill="#c9c7b7"/>
+  <rect x="730" y="7" width="14" height="39" rx="5" fill="#a36986" opacity=".84"/>
+  <circle cx="764" cy="22" r="6" fill="#667d78"/><circle cx="778" cy="28" r="5" fill="#7f7766"/><circle cx="757" cy="39" r="4" fill="#5e7480"/>
+  <path d="M781 46q8-7 14-1" fill="none" stroke="#b58c57" stroke-width="4"/>
+</g>
+
+<!-- red bottle in the grass -->
+<g transform="rotate(-8 1000 235)" class="ink">
+  <path d="M968 160l20-4 9 45c24 1 55 7 70 28 15 21-3 61-31 76-30 16-73 2-78-28-4-22 13-47 24-61Z" fill="#a75e66"/>
+  <path d="M969 160q8-13 18-4l8 36-17 5Z" fill="#c2927a"/>
+  <path d="M968 163l5-10q5-7 12-2l5 9" fill="#c0a283"/>
+  <path d="M1037 211c18 13 26 31 20 48" fill="none" stroke="#c97b7a" stroke-width="4" opacity=".6"/>
+</g>
+
+<!-- shoes lying beside the cloth -->
+<g class="ink">
+  <path d="M31 688c31-17 83-30 143-47 17-5 29 4 30 21 1 20-17 29-42 40L79 738c-21 8-43 1-49-19-4-13-3-24 1-31Z" fill="#332f35" opacity=".9"/>
+  <path d="M34 682c34-16 92-31 139-42 15-4 25 6 24 20-2 17-22 25-43 34l-78 30c-20 8-38 3-44-14-4-11-3-20 2-28Z" fill="#725143"/>
+  <path d="M44 681c31-11 83-27 123-35 14-3 21 6 18 16-4 11-21 18-37 24l-74 26c-17 6-29 2-33-9-3-8-1-16 3-22Z" fill="#5d4d48"/>
+  <path d="M96 660c11 7 18 25 15 45l23-7c2-18-5-36-17-44Z" fill="#3f3a40"/>
+  <path d="M34 709c37 10 87-12 127-28" fill="none" stroke="#ba7853" stroke-width="3" opacity=".7"/>
+  <path d="M153 710c18-13 42-9 54 7 16 21 4 62-12 93-13 26-27 53-43 58-14 4-27-9-28-23-2-25 8-61 14-91 4-19 3-35 15-44Z" fill="#302d32"/>
+  <path d="M157 716c16-10 35-4 43 10 11 19 0 54-14 82-12 23-22 45-35 49-11 3-20-6-21-18-2-19 8-57 13-83 4-18 3-32 14-40Z" fill="#754f40"/>
+  <path d="M145 745c15 11 34 15 50 12l-9 28c-17 1-34-5-48-14Z" fill="#44383a"/>
+  <path d="M133 818c9 9 23 14 36 12-7 17-12 29-20 28-12-2-18-16-16-40Z" fill="#f0c58f" stroke="#62473a"/>
+  <path d="M160 824q3 11-3 21" fill="none" stroke="#fff0bd" stroke-width="3"/>
+</g>
+
+<!-- a folded blue ribbon / paper -->
+<g transform="translate(934 574) rotate(8)" class="ink">
+  <path d="M24 10L50 0l5 32 25 17-24 8 10 35-32-20L4 90l10-37-14-20 27 2Z" fill="#66889a" opacity=".88"/>
+  <path d="M27 12l7 47L8 80M34 59l39-9M36 62l22 26" fill="none" stroke="#3f657a" stroke-width="3"/>
+  <path d="M31 7l8 45" fill="none" stroke="#9eb3ae" stroke-width="4" opacity=".7"/>
+</g>
+
+<!-- soft shadow cast by the reclining figure -->
+<path d="M288 404c93-88 233-142 356-138 122 4 221 87 261 195 43 115 14 229-87 289-82 49-130 117-179 203-55 95-96 221-193 293-75 57-169 27-180-58-12-94 74-172 114-247 39-74 49-137 18-202-35-73-116-121-147-194-20-48-2-103 37-141Z" fill="#304c36" opacity=".25" filter="url(#softShadow)"/>
+
+<!-- the long mass of silver hair behind the body -->
+<g class="ink">
+  <path d="M635 211c-51 24-64 80-113 111-37 24-83 18-126 18 27-19 49-49 60-84-19-2-29 4-32 16-2 13 14 22 26 31 24 20 6 39-37 47-48 9-76 16-105 39-22 18-37 23-55 8 2 23 16 35 40 36-23 16-40 35-33 59 6 21 0 32-11 33 0 22 13 39 29 34 4 24 18 35 34 24 14-8 20-30 21-51 14 24 28 34 44 23 19-13 23-38 34-60 22-9 47-27 69-35-17 20-36 44-45 64-11 25-12 50 5 67 27 27 86 30 139 13 50-16 94-46 128-73 21 8 35 36 47 72 17 51 27 104 7 144 22-12 35-31 38-58 12 38 32 60 51 50 15-8 18-27 14-47 21 28 43 27 53 9 8-15-1-38-17-55 22 10 43 1 45-17 2-19-19-37-39-48 25 0 35-13 29-31-8-24-39-34-53-54-14-20-10-51-24-76-17-35-38-74-78-98-29-18-60-20-89-6Z" fill="url(#hair)"/>
+  <!-- left separated locks -->
+  <path d="M617 259c-42 54-95 78-155 102-42 17-83 23-121 22 25 14 55 14 82 9-47 31-91 48-126 42 18 23 46 29 77 20-31 33-52 68-46 96 7 29 26 26 39 4 12-20 17-56 43-72 35-21 76-26 110-50 37-25 68-60 97-91Z" fill="#d9dac8"/>
+  <path d="M608 286c-52 58-125 72-187 82-42 7-74 7-101-4 17 27 63 39 101 31" class="hairline"/>
+  <path d="M559 337c-54 39-110 57-168 73-44 12-72 33-89 59" class="hairline"/>
+  <path d="M508 424c-33 30-67 41-103 53-28 9-46 28-55 60" class="hairline"/>
+  <!-- right cascading locks -->
+  <path d="M753 289c50 45 70 100 101 146 16 24 46 40 60 69-17-7-35-7-51-17 17 25 42 42 52 65-17-1-33-7-46-17 17 31 29 65 22 88-6 18-23 20-39 3 5 30 2 58-13 65-16 7-31-10-41-34 1 34-7 62-27 67-21 5-33-20-36-51-12 31-30 53-50 48-19-6-18-34-10-63l22-205Z" fill="url(#hairShade)"/>
+  <path d="M778 332c21 76 67 119 102 156M756 357c35 78 60 144 101 190M738 397c38 75 61 144 75 222M713 422c27 81 42 157 51 233M688 436c19 83 22 159 12 218" class="hairline"/>
+  <path d="M642 270c-47 55-88 107-141 134M642 302c-33 48-69 94-113 122M424 432c-42 28-72 60-75 100" class="hairline"/>
+</g>
+
+<!-- raised right arm and hand -->
+<g class="ink">
+  <path d="M800 406c20-18 38-37 45-62 5-19 1-39-3-59l-23-86c-5-8-14-14-21-21-10-10-20-24-19-31 1-6 6-7 11-2l10 12c-4-10-3-16 2-17 7-1 9 11 13 18-3-12-1-17 4-18 8-1 8 14 12 24-1-14 2-18 8-17 9 2 5 22 7 33 1 13-8 21-16 30l37 119c8 26 5 49-10 71l-14 18Z" fill="url(#skin)"/>
+  <path d="M800 158c7 10 11 23 20 31 8 7 16 8 26 4M813 158c4 12 7 23 15 30M830 163c2 11 4 18 9 23M842 201c-6 7-13 10-22 11M828 228c-5 4-9 9-11 14" class="fine" stroke="#a16f63"/>
+  <path d="M844 284c8 30 17 60 10 84" fill="none" stroke="#b77d6f" stroke-width="1.4" opacity=".65"/>
+  <!-- fingers curled around glass marble -->
+  <path d="M799 157c2 14 4 28 14 34 8 6 18 2 22-7" fill="none" stroke="#95675c" stroke-width="1.6"/>
+  <circle cx="819" cy="177" r="12.5" fill="url(#marble)" stroke="#385c68" stroke-width="2"/>
+  <circle cx="815" cy="172" r="4" fill="#d9ffff" opacity=".85" stroke="none"/>
+  <path d="M808 181q10 12 22 1" fill="none" stroke="#69aabd" stroke-width="2" opacity=".8"/>
+</g>
+
+<!-- legs in sheer charcoal stockings -->
+<g class="ink">
+  <path d="M456 757c36 0 82 25 100 62 19 38-5 93-29 139l-76 143c-31 63-65 130-102 177-22 28-49 50-76 56-18 4-40-6-46-17-5-10 4-16 17-20 28-9 48-31 65-61l70-141c28-64 54-134 75-199 15-47 14-86-14-115Z" fill="url(#stockingB)"/>
+  <path d="M497 811c26 42 8 91-14 137l-77 151c-31 65-60 131-103 178" fill="none" stroke="#9f927e" stroke-width="3" opacity=".25"/>
+  <path d="M360 677c43-10 91 3 116 37 31 42 11 100-18 155-35 66-83 132-130 195-31 42-46 84-59 128l-14 40c-4 13 4 23 18 27 16 5 29-5 35-19l23-86c14-43 41-79 69-118l91-127c44-61 63-130 37-178-22-40-69-65-113-64Z" fill="url(#stockingA)"/>
+  <path d="M372 692c36-3 76 10 94 41 21 36 3 86-21 132-35 64-81 127-126 190-32 45-47 87-59 132" fill="none" stroke="#a29681" stroke-width="3" opacity=".32"/>
+  <path d="M362 704c35-12 77 0 101 25l-24 62c-24-27-56-34-87-29Z" fill="#242a32" opacity=".35" stroke="none"/>
+  <!-- soft sun patches on stockings -->
+  <ellipse cx="418" cy="768" rx="47" ry="38" fill="#d6b885" opacity=".27" stroke="none" filter="url(#smallBlur)"/>
+  <ellipse cx="372" cy="909" rx="31" ry="65" fill="#cdbb8c" opacity=".18" stroke="none" filter="url(#smallBlur)"/>
+  <ellipse cx="466" cy="884" rx="27" ry="59" fill="#dbc28c" opacity=".16" stroke="none" filter="url(#smallBlur)"/>
+  <path d="M230 1312c20 10 44 12 64 4M228 1224c19 17 45 25 70 19" fill="none" stroke="#514b48" stroke-width="1.5" opacity=".7"/>
+</g>
+
+<!-- skirt -->
+<g class="ink">
+  <path d="M446 568c-49 17-91 49-126 83-24 23-47 43-70 60 18 24 43 45 79 61l42-21c39 49 81 95 126 126 36 25 71 40 105 42 22-59 38-120 39-180 0-45-4-89-24-111-46-31-108-56-171-60Z" fill="url(#skirt)"/>
+  <path d="M321 653c-4 32 4 62 8 100l42-22c17 25 35 48 54 68M385 609c-1 48-6 92-14 122M442 579c-7 64-2 124 5 187M497 587c-6 69 7 136 24 204M551 606c0 93 26 175 52 248M598 628c-1 78 12 150 6 227" class="fine" opacity=".55"/>
+  <path d="M254 710c30 12 54 20 77 21M331 731l40 20M497 876c39 23 72 39 105 43" fill="none" stroke="#8c958a" stroke-width="2" opacity=".75"/>
+  <path d="M513 724c32 29 66 37 119 34l8 54c-50 5-92-6-122-29Z" fill="#eef0dc" opacity=".33" stroke="none"/>
+  <path d="M297 680c34-14 67-18 100-17-22 20-42 43-60 72l-52-13Z" fill="#aab6ac" opacity=".36" stroke="none"/>
+</g>
+
+<!-- narrow strip of waist -->
+<path d="M451 558c42 5 93 25 135 49 18 10 29 23 36 38l-18 19c-44-31-95-52-146-57-15-11-20-32-7-49Z" fill="url(#skin)" class="ink"/>
+<path d="M526 599q-1 9 7 11" fill="none" stroke="#b47e70" stroke-width="1.6" opacity=".65"/>
+
+<!-- sailor blouse and sleeves -->
+<g class="ink">
+  <path d="M562 375c-38 12-78 34-111 65l-27 39 41 27 41-22c-10 28-19 55-22 84-2 18-12 32-25 43 52 6 107 25 148 50 22 13 48 14 70 7 29-45 51-94 72-143l30-69 18-61c-35-18-73-26-111-27l-62 22Z" fill="url(#shirt)"/>
+  <path d="M454 437c-14 8-26 25-31 42l42 27 35-18-13-49Z" fill="#b9c5bd"/>
+  <path d="M432 473c12 6 24 11 36 17" fill="none" stroke="#60665f" stroke-width="5" opacity=".82"/>
+  <path d="M759 381c25 1 51 11 68 26l-13 52c-17 4-34-9-47-29l-18-28Z" fill="#c8d0c6"/>
+  <path d="M817 448c-17-5-30-16-40-31" fill="none" stroke="#565961" stroke-width="5"/>
+  <!-- collar -->
+  <path d="M562 375l65 19 31 22 43-40c20-6 43-5 66 1-16 35-44 69-90 104l-30-25-27 19c-26-33-43-64-58-100Z" fill="#aebbb7"/>
+  <path d="M565 380c17 34 34 64 57 90M764 380c-19 36-48 68-87 96" fill="none" stroke="#5b5d66" stroke-width="4"/>
+  <path d="M581 389c14 24 29 47 44 65M746 390c-18 27-42 50-71 71" fill="none" stroke="#d9dfd3" stroke-width="2" opacity=".85"/>
+  <!-- ribbon tie -->
+  <path d="M621 447l29 5 22 25-29 9-23-14-11-18Z" fill="#4e4a59"/>
+  <path d="M642 480l-6 59-31-9-21-18 35-42Z" fill="#514b59"/>
+  <path d="M621 477l-16 47M637 488l-8 45" fill="none" stroke="#6f6875" stroke-width="2"/>
+  <!-- seams and creases -->
+  <path d="M503 486c18 12 26 27 27 47M486 568c20-6 39-13 49-30M694 493c-6 57-15 110-32 157M733 472c-16 31-27 65-32 102M557 583c22 10 39 23 50 40" class="fine" opacity=".46"/>
+  <path d="M463 611c47-2 105 22 144 48 23 15 47 15 70 9" fill="none" stroke="#55594f" stroke-width="2.5"/>
+</g>
+
+<!-- neck -->
+<path d="M641 339l78-6 5 47c-11 20-30 34-53 36-17-7-29-18-38-31Z" fill="url(#skin)" class="ink"/>
+<path d="M666 367c15 13 35 16 52 5" fill="none" stroke="#b77e70" stroke-width="1.5" opacity=".55"/>
+
+<!-- left arm laid across her chest -->
+<g class="ink">
+  <path d="M467 479c-16 18-39 38-55 58-9 11-7 22 4 29 13 9 28 3 41-4 31-18 65-43 96-61l54-32c13-8 24-19 38-20 15-1 25 7 36 12 10 5 19 10 26 6 6-4 1-10-7-15 11 5 18 1 14-5-5-7-18-10-29-16-19-11-35-14-50-8l-78 33c-23 9-43 13-62 14Z" fill="url(#skinLight)"/>
+  <path d="M635 423c9 8 15 18 23 25 8 8 19 11 29 12M653 421c9 8 14 17 22 23 8 7 17 9 25 8M671 427c8 8 15 13 23 16" class="fine" stroke="#a36f64"/>
+  <path d="M427 551c36-20 66-47 99-66" fill="none" stroke="#f1d1b7" stroke-width="3" opacity=".35"/>
+</g>
+
+<!-- face -->
+<g class="ink">
+  <path d="M618 247c19-36 67-55 109-45 47 11 75 50 70 96-4 34-22 67-52 84-25 14-62 7-87-13-32-26-53-82-40-122Z" fill="url(#skinLight)"/>
+  <path d="M760 325c18-12 36-5 35 10-1 15-17 31-34 35-9 2-14-4-10-13" fill="#d9a58e"/>
+  <path d="M759 337q14-10 23-1-9 3-15 14" class="fine" stroke="#a56e64"/>
+  <!-- blush -->
+  <ellipse cx="663" cy="331" rx="37" ry="17" fill="#d98e88" opacity=".17" stroke="none" filter="url(#smallBlur)"/>
+  <ellipse cx="740" cy="330" rx="28" ry="14" fill="#d98986" opacity=".18" stroke="none" filter="url(#smallBlur)"/>
+  <g stroke="#c68179" stroke-width="1" opacity=".33">
+    <path d="M646 326l-5 9M655 325l-4 11M666 327l-3 10M725 328l-3 10M734 326l-3 10M743 327l-2 9"/>
+  </g>
+  <!-- eyes -->
+  <path d="M619 283q13-15 27-1-2 24-14 27-14-5-13-26Z" fill="url(#eye)" stroke="#596574"/>
+  <ellipse cx="630" cy="289" rx="4" ry="8" fill="#d9f2ed" stroke="none" opacity=".85"/>
+  <circle cx="635" cy="300" r="2.4" fill="#294b64" stroke="none"/>
+  <path d="M618 282q14-16 29 0" fill="none" stroke="#52535b" stroke-width="3"/>
+  <path d="M680 282q18-12 31 5-5 23-18 24-15-7-13-29Z" fill="url(#eye)" stroke="#596574"/>
+  <ellipse cx="691" cy="288" rx="5" ry="7" fill="#d9f1ed" stroke="none" opacity=".88"/>
+  <circle cx="699" cy="302" r="2.5" fill="#294b64" stroke="none"/>
+  <path d="M679 281q18-13 33 6" fill="none" stroke="#52535b" stroke-width="3"/>
+  <path d="M616 272q14-9 29-3M682 267q17-6 31 5" fill="none" stroke="#717062" stroke-width="1.5"/>
+  <!-- nose and mouth -->
+  <path d="M664 308q-5 8 1 11" class="fine" stroke="#ad766d"/>
+  <path d="M657 343q7-4 14 2" fill="none" stroke="#8d625d" stroke-width="1.7"/>
+</g>
+
+<!-- crown, fringe and side hair over the face -->
+<g class="ink">
+  <path d="M594 274c-3-47 20-78 59-89 45-13 98-2 130 29 33 31 42 77 25 117-10 24-24 39-43 51 3-21 8-39 1-60-5 15-13 27-25 36 9-23 13-44 8-64-8-29-30-52-57-61-32-11-65 0-79 25-9 16-10 31-9 48-8-8-11-19-10-32Z" fill="url(#hairShade)"/>
+  <!-- fringe made as one jagged curtain -->
+  <path d="M610 263c7-35 42-61 78-61 37 0 73 19 88 50-8-7-16-12-24-15 4 19 7 37 4 56l-18-43c0 25-2 45-9 60l-14-62c-1 29-4 54-11 69l-13-70c-5 28-9 51-18 65l-5-67c-9 27-15 48-25 59l2-58c-11 20-19 33-31 43 3-17 1-31-4-46Z" fill="url(#hair)"/>
+  <path d="M635 225c16-17 39-26 61-27M674 207c-12 27-15 53-15 80M701 207c-5 27-5 54-2 83M727 217c3 20 7 41 5 62M751 230c8 18 12 34 12 50" class="hairline"/>
+  <path d="M608 284c-9 25-10 45 0 64l17-21-2 31 20 7-2-42" fill="url(#hair)"/>
+  <path d="M771 287c14 31 10 59-9 81l-18 16 8-45-16 31 3-48" fill="url(#hairShade)"/>
+  <path d="M799 276c11 44 3 77-22 100M602 266c-9 34-5 63 10 82" class="hairline"/>
+  <!-- mint reflected highlights -->
+  <path d="M650 204c18-9 39-12 60-8l-18 11 22 3-19 8 23 5c-35 1-53-2-79 10Z" fill="#b8d6c1" opacity=".36" stroke="none"/>
+  <path d="M754 231c18 19 29 41 30 66l-11-15-1 20-8-20-2 23c-6-31-12-49-24-69Z" fill="#b4d2be" opacity=".25" stroke="none"/>
+</g>
+
+<!-- tiny emblem on collar -->
+<g transform="translate(617 414) rotate(17)" opacity=".7">
+  <circle cx="0" cy="0" r="11" fill="#cad5bb" stroke="#87947b" stroke-width="1"/>
+  <path d="M-5 4q2-10 6-8 5 2 2 7 4-5 7-1" fill="none" stroke="#b69154" stroke-width="1.4"/>
+</g>
+
+<!-- dappled light on girl and grass -->
+<g fill="#fffbd2" opacity=".34" filter="url(#smallBlur)">
+  <path d="M503 705c29-15 53-11 67 8 11 15 9 34-8 44-27 15-74 3-83-16-7-15 7-27 24-36Z"/>
+  <path d="M548 747c26-14 54-4 58 17 4 20-17 37-39 34-26-3-42-16-39-30 2-9 9-16 20-21Z"/>
+  <path d="M337 1037c17-4 33 10 30 27-3 18-22 30-38 20-16-10-11-42 8-47Z"/>
+  <ellipse cx="447" cy="878" rx="24" ry="48"/>
+  <ellipse cx="287" cy="1170" rx="14" ry="31"/>
+</g>
+<g fill="#2d5535" opacity=".12" filter="url(#smallBlur)">
+  <ellipse cx="800" cy="488" rx="30" ry="53"/><ellipse cx="706" cy="622" rx="39" ry="24"/>
+  <ellipse cx="579" cy="350" rx="27" ry="16"/><ellipse cx="401" cy="476" rx="28" ry="34"/>
+</g>
+
+<!-- blades and leaves that mingle with the loose hair -->
+<g stroke-linecap="round" stroke-linejoin="round">
+  <g fill="#6f9147" stroke="#54763d" stroke-width="1.2" opacity=".9">
+    <path d="M314 399c17-23 40-32 68-28-15 20-37 30-68 28Z"/>
+    <path d="M352 387c18-17 39-22 63-15-17 17-37 24-63 15Z"/>
+    <path d="M276 511c11-20 26-30 47-30-8 22-24 32-47 30Z"/>
+    <path d="M301 531c16-14 32-19 51-12-13 16-29 21-51 12Z"/>
+    <path d="M742 606c12-18 27-26 44-23-7 19-21 29-44 23Z"/>
+    <path d="M771 674c13-17 27-22 44-17-11 17-24 23-44 17Z"/>
+  </g>
+  <g fill="none" stroke="#4e743d" stroke-width="3" opacity=".78">
+    <path d="M292 555q18-50 70-83M322 403q13-30 38-51M735 687q16-57 47-90M807 710q-4-44 19-80M285 783q3-39 24-71M631 866q20-55 21-100"/>
+  </g>
+  <g fill="none" stroke="#d5dc70" stroke-width="2.5" opacity=".75">
+    <path d="M270 616q2-35-11-56M281 606q11-37 31-54M659 841q-1-43-16-68M674 838q9-43 31-65M745 739q16-31 35-43"/>
+  </g>
+</g>
+
+<!-- luminous butterflies -->
+<use href="#butterfly" x="187" y="164" width="87" height="77" transform="rotate(-16 230 202)" filter="url(#glow)"/>
+<use href="#butterfly" x="970" y="270" width="83" height="74" transform="rotate(20 1011 307)" filter="url(#glow)"/>
+
+<!-- middle-ground flowers along both borders -->
+<g opacity=".9">
+  <path d="M8 643q25-79 62-136M41 604q34-72 83-126M106 586q7-74 35-126" fill="none" stroke="#537846" stroke-width="4"/>
+  <use href="#blueflower" x="-8" y="430" width="42" height="42"/><use href="#blueflower" x="18" y="452" width="35" height="35"/>
+  <use href="#flower" x="56" y="469" width="30" height="30"/><use href="#blueflower" x="89" y="420" width="34" height="34"/>
+  <use href="#blueflower" x="111" y="448" width="29" height="29"/><use href="#flower" x="18" y="510" width="30" height="30"/>
+  <use href="#blueflower" x="53" y="531" width="42" height="42"/><use href="#blueflower" x="-7" y="555" width="47" height="47"/>
+  <use href="#flower" x="99" y="511" width="27" height="27"/><use href="#blueflower" x="27" y="583" width="34" height="34"/>
+  <use href="#blueflower" x="-10" y="620" width="36" height="36"/><use href="#flower" x="72" y="568" width="28" height="28"/>
+</g>
+<g opacity=".85">
+  <path d="M1069 708q-28-90-55-161M1083 624q-42-60-79-99M1046 670q-3-66 10-111" fill="none" stroke="#456e43" stroke-width="4"/>
+  <use href="#blueflower" x="1050" y="456" width="44" height="44"/><use href="#flower" x="1018" y="485" width="32" height="32"/>
+  <use href="#blueflower" x="1061" y="520" width="39" height="39"/><use href="#blueflower" x="1025" y="544" width="29" height="29"/>
+  <use href="#flower" x="1060" y="580" width="30" height="30"/><use href="#blueflower" x="1036" y="616" width="42" height="42"/>
+  <use href="#flower" x="1070" y="676" width="28" height="28"/>
+</g>
+
+<!-- foliage and flower bank through the foreground -->
+<g>
+  <path d="M278 1440c19-84 55-155 105-207 53-54 101-72 142-136 39-61 63-133 112-184M403 1440c22-95 62-180 111-241 45-57 103-91 132-156M529 1440c6-71 35-129 79-178 35-39 54-76 67-120M623 1375q-6-105 34-182" fill="none" stroke="#416d3f" stroke-width="6" opacity=".75"/>
+  <g fill="#3f6a3a" opacity=".9">
+    <ellipse cx="336" cy="1322" rx="22" ry="9" transform="rotate(-35 336 1322)"/><ellipse cx="377" cy="1278" rx="24" ry="10" transform="rotate(23 377 1278)"/>
+    <ellipse cx="410" cy="1235" rx="27" ry="10" transform="rotate(-30 410 1235)"/><ellipse cx="456" cy="1204" rx="28" ry="11" transform="rotate(31 456 1204)"/>
+    <ellipse cx="493" cy="1145" rx="27" ry="10" transform="rotate(-28 493 1145)"/><ellipse cx="535" cy="1097" rx="25" ry="10" transform="rotate(34 535 1097)"/>
+    <ellipse cx="564" cy="1047" rx="24" ry="10" transform="rotate(-23 564 1047)"/><ellipse cx="600" cy="988" rx="26" ry="10" transform="rotate(34 600 988)"/>
+    <ellipse cx="645" cy="943" rx="22" ry="9" transform="rotate(-31 645 943)"/>
+    <ellipse cx="476" cy="1335" rx="30" ry="12" transform="rotate(-22 476 1335)"/><ellipse cx="547" cy="1279" rx="29" ry="11" transform="rotate(27 547 1279)"/>
+    <ellipse cx="596" cy="1216" rx="26" ry="10" transform="rotate(-33 596 1216)"/><ellipse cx="637" cy="1149" rx="25" ry="10" transform="rotate(29 637 1149)"/>
+  </g>
+  <!-- flowers from waist to lower edge -->
+  <g>
+    <use href="#flower" x="615" y="890" width="31" height="31"/><use href="#tinyflower" x="652" y="907" width="22" height="22"/>
+    <use href="#flower" x="588" y="931" width="36" height="36"/><use href="#flower" x="630" y="944" width="29" height="29"/>
+    <use href="#tinyflower" x="668" y="957" width="24" height="24"/><use href="#flower" x="555" y="971" width="34" height="34"/>
+    <use href="#flower" x="601" y="989" width="42" height="42"/><use href="#blueflower" x="647" y="1006" width="35" height="35"/>
+    <use href="#tinyflower" x="531" y="1018" width="24" height="24"/><use href="#flower" x="566" y="1040" width="38" height="38"/>
+    <use href="#blueflower" x="612" y="1051" width="45" height="45"/><use href="#flower" x="660" y="1081" width="33" height="33"/>
+    <use href="#flower" x="510" y="1068" width="35" height="35"/><use href="#tinyflower" x="545" y="1101" width="24" height="24"/>
+    <use href="#blueflower" x="577" y="1105" width="43" height="43"/><use href="#blueflower" x="626" y="1125" width="48" height="48"/>
+    <use href="#flower" x="680" y="1137" width="30" height="30"/><use href="#flower" x="485" y="1123" width="39" height="39"/>
+    <use href="#blueflower" x="528" y="1152" width="41" height="41"/><use href="#flower" x="577" y="1168" width="37" height="37"/>
+    <use href="#blueflower" x="621" y="1190" width="47" height="47"/><use href="#flower" x="672" y="1212" width="32" height="32"/>
+    <use href="#flower" x="459" y="1183" width="37" height="37"/><use href="#blueflower" x="499" y="1210" width="45" height="45"/>
+    <use href="#flower" x="549" y="1235" width="39" height="39"/><use href="#blueflower" x="594" y="1248" width="44" height="44"/>
+    <use href="#flower" x="642" y="1278" width="34" height="34"/><use href="#blueflower" x="430" y="1240" width="41" height="41"/>
+    <use href="#flower" x="470" y="1272" width="38" height="38"/><use href="#blueflower" x="515" y="1294" width="47" height="47"/>
+    <use href="#flower" x="567" y="1322" width="38" height="38"/><use href="#flower" x="611" y="1343" width="35" height="35"/>
+  </g>
+</g>
+
+<!-- bottles and little carton on the blanket -->
+<g class="ink">
+  <g transform="translate(13 1207) rotate(34 49 55)">
+    <rect x="12" y="18" width="70" height="103" rx="18" fill="#b99a54"/>
+    <ellipse cx="47" cy="19" rx="35" ry="24" fill="#e7e2c7"/>
+    <path d="M17 87h60" stroke="#d9b56a" stroke-width="12" opacity=".6"/>
+    <circle cx="35" cy="91" r="5" fill="#d77272" stroke="none"/><circle cx="52" cy="98" r="5" fill="#776a99" stroke="none"/>
+    <path d="M63 82q8 9 3 18" fill="none" stroke="#71846d" stroke-width="5"/>
+  </g>
+  <g transform="translate(-18 1303) rotate(29 40 45)">
+    <rect x="5" y="7" width="67" height="86" rx="13" fill="#ead8aa"/>
+    <rect x="13" y="21" width="10" height="34" rx="4" fill="#a86f77"/>
+    <circle cx="47" cy="46" r="19" fill="#eee9d2" stroke="none"/>
+    <circle cx="40" cy="42" r="3" fill="#555d54" stroke="none"/><circle cx="54" cy="42" r="3" fill="#555d54" stroke="none"/>
+    <path d="M41 52q6 6 12 0" fill="none" stroke="#6f6655" stroke-width="2"/>
+  </g>
+  <g transform="translate(82 1347) rotate(18 39 42)">
+    <path d="M8 19L24 2h49l10 18v70H8Z" fill="#eef0c8"/>
+    <path d="M24 2l8 18h51L73 2" fill="#daddb1"/>
+    <circle cx="46" cy="49" r="20" fill="#f7f2d1" stroke="none"/>
+    <circle cx="39" cy="45" r="3.5" fill="#586056" stroke="none"/><circle cx="54" cy="45" r="3.5" fill="#586056" stroke="none"/>
+    <path d="M40 57q7 6 13 0M27 73h39" fill="none" stroke="#7b7660" stroke-width="2"/>
+  </g>
+</g>
+
+<!-- dense foreground grasses -->
+<g color="#355f39" opacity=".95">
+  <use href="#tuft" x="154" y="1245" width="70" height="91"/><use href="#tuft" x="228" y="1275" width="63" height="82"/>
+  <use href="#tuft" x="298" y="1206" width="72" height="93"/><use href="#tuft" x="377" y="1301" width="68" height="90"/>
+  <use href="#tuft" x="453" y="1347" width="61" height="80"/><use href="#tuft" x="566" y="1310" width="70" height="90"/>
+  <use href="#tuft" x="646" y="1264" width="67" height="88"/><use href="#tuft" x="914" y="1237" width="72" height="94"/>
+  <use href="#tuft" x="1007" y="1313" width="68" height="91"/>
+</g>
+<g color="#d8de73" opacity=".9">
+  <use href="#tuft" x="0" y="1167" width="67" height="86"/><use href="#tuft" x="92" y="1217" width="53" height="72"/>
+  <use href="#tuft" x="183" y="1160" width="62" height="84"/><use href="#tuft" x="267" y="1105" width="55" height="74"/>
+  <use href="#tuft" x="345" y="1164" width="61" height="82"/><use href="#tuft" x="445" y="1095" width="55" height="75"/>
+  <use href="#tuft" x="681" y="901" width="63" height="83"/><use href="#tuft" x="820" y="854" width="59" height="78"/>
+</g>
+
+<!-- foreground carpet of blossoms along the bottom -->
+<g>
+  <path d="M185 1440q23-76 91-130M290 1440q18-87 80-148M404 1440q1-73 51-129M515 1440q8-54 47-100" fill="none" stroke="#3c693c" stroke-width="6"/>
+  <use href="#flower" x="177" y="1368" width="43" height="43"/><use href="#blueflower" x="220" y="1336" width="38" height="38"/>
+  <use href="#flower" x="258" y="1375" width="49" height="49"/><use href="#flower" x="306" y="1313" width="38" height="38"/>
+  <use href="#blueflower" x="338" y="1351" width="45" height="45"/><use href="#flower" x="384" y="1299" width="41" height="41"/>
+  <use href="#flower" x="422" y="1340" width="46" height="46"/><use href="#blueflower" x="473" y="1326" width="42" height="42"/>
+  <use href="#flower" x="518" y="1364" width="48" height="48"/><use href="#blueflower" x="561" y="1323" width="41" height="41"/>
+  <use href="#flower" x="601" y="1376" width="45" height="45"/><use href="#blueflower" x="142" y="1405" width="39" height="39"/>
+  <use href="#flower" x="211" y="1410" width="36" height="36"/><use href="#blueflower" x="320" y="1401" width="43" height="43"/>
+  <use href="#flower" x="373" y="1386" width="33" height="33"/><use href="#blueflower" x="452" y="1404" width="38" height="38"/>
+  <use href="#flower" x="572" y="1410" width="34" height="34"/>
+</g>
+
+<!-- butterfly over the foreground flowers -->
+<use href="#butterfly" x="681" y="1134" width="91" height="80" transform="rotate(12 726 1174)" filter="url(#glow)"/>
+
+<!-- small high flowers in the far upper right -->
+<g opacity=".65">
+  <use href="#blueflower" x="898" y="68" width="31" height="31"/><use href="#blueflower" x="927" y="74" width="30" height="30"/>
+  <use href="#flower" x="969" y="84" width="28" height="28"/><use href="#blueflower" x="1022" y="72" width="38" height="38"/>
+  <use href="#blueflower" x="1053" y="91" width="36" height="36"/>
+  <path d="M913 92q-3-48 2-88M946 95q2-38-6-69M1036 93q12-53 25-88" fill="none" stroke="#587947" stroke-width="3"/>
+</g>
+
+<!-- very subtle handmade surface grain -->
+<rect width="1088" height="1440" filter="url(#grain)" opacity=".15" style="mix-blend-mode:soft-light"/>
+
+<!-- camera timestamp -->
+<text x="23" y="1417" fill="#fff9e8" opacity=".83" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="300" letter-spacing="-1">01:30</text>
+</svg>
+</body>
+</html>

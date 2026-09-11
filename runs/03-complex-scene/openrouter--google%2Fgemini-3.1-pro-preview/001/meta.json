@@ -1,0 +1,13 @@
+{
+  "caseId": "03-complex-scene",
+  "createdAt": "2026-09-06T07:27:51.928Z",
+  "piVersion": "0.85.1",
+  "systemPromptMode": "cwd-only",
+  "requestedProvider": "openrouter",
+  "requestedModel": "google/gemini-3.1-pro-preview",
+  "requestedThinking": "high",
+  "image": "03-complex-scene/1788282455641.png",
+  "width": 1088,
+  "height": 1440,
+  "output": "work/index.html"
+}

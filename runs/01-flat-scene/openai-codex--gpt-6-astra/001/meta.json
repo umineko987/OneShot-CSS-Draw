@@ -1,0 +1,13 @@
+{
+  "caseId": "01-flat-scene",
+  "createdAt": "2026-09-06T03:56:59.995Z",
+  "piVersion": "0.85.1",
+  "systemPromptMode": "cwd-only",
+  "requestedProvider": "openai-codex",
+  "requestedModel": "gpt-6-astra",
+  "requestedThinking": "max",
+  "image": "01-flat-scene/IMG_20260904_171523.png",
+  "width": 1440,
+  "height": 805,
+  "output": "work/index.html"
+}

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Warm Grove — HTML/CSS/SVG reproduction</title>
+<style>
+  html, body { margin: 0; padding: 0; background: #6f6d4a; }
+  #canvas {
+    position: relative;
+    width: 1088px;
+    height: 1440px;
+    overflow: hidden;
+    background: #99965f;
+  }
+  #canvas svg { display: block; width: 1088px; height: 1440px; }
+</style>
+</head>
+<body>
+<div id="canvas">
+<svg viewBox="0 0 1088 1440" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- ============ color gradients ============ -->
+    <linearGradient id="gAmber" x1="0.05" y1="0" x2="0.75" y2="1">
+      <stop offset="0" stop-color="#f0d193"/>
+      <stop offset="0.35" stop-color="#e7c489"/>
+      <stop offset="0.7" stop-color="#dcae74"/>
+      <stop offset="1" stop-color="#c9a06b"/>
+    </linearGradient>
+    <linearGradient id="gYellowSky" x1="0.1" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#f8ef9c"/>
+      <stop offset="0.45" stop-color="#eee587"/>
+      <stop offset="1" stop-color="#c6c06d"/>
+    </linearGradient>
+    <linearGradient id="gGraySky" x1="0" y1="0" x2="0.35" y2="1">
+      <stop offset="0" stop-color="#a3a69c"/>
+      <stop offset="0.45" stop-color="#959a83"/>
+      <stop offset="1" stop-color="#7f874f"/>
+    </linearGradient>
+    <linearGradient id="gOliveMid" x1="0" y1="0" x2="0.15" y2="1">
+      <stop offset="0" stop-color="#a3a162"/>
+      <stop offset="0.4" stop-color="#91935c"/>
+      <stop offset="1" stop-color="#7c8345"/>
+    </linearGradient>
+    <linearGradient id="gOliveLeft" x1="0" y1="0" x2="1" y2="0.5">
+      <stop offset="0" stop-color="#8a7a4d"/>
+      <stop offset="0.55" stop-color="#a3986f"/>
+      <stop offset="1" stop-color="#8d9159"/>
+    </linearGradient>
+    <linearGradient id="gField" x1="0.15" y1="0" x2="0.75" y2="1">
+      <stop offset="0" stop-color="#f4ef8c"/>
+      <stop offset="0.35" stop-color="#faf68f"/>
+      <stop offset="0.7" stop-color="#f0ea87"/>
+      <stop offset="1" stop-color="#ddd77c"/>
+    </linearGradient>
+    <radialGradient id="gCream" cx="0.5" cy="0.45" r="0.7">
+      <stop offset="0" stop-color="#fffde9"/>
+      <stop offset="0.5" stop-color="#fcf8dd"/>
+      <stop offset="1" stop-color="#f1ecd2" stop-opacity="0.55"/>
+    </radialGradient>
+    <linearGradient id="gPeach" x1="0" y1="0" x2="0.7" y2="1">
+      <stop offset="0" stop-color="#d8b189"/>
+      <stop offset="0.3" stop-color="#e9c29b"/>
+      <stop offset="0.75" stop-color="#fdd7b4"/>
+      <stop offset="1" stop-color="#f2cca6"/>
+    </linearGradient>
+    <linearGradient id="gGreen" x1="0.1" y1="0" x2="0.4" y2="1">
+      <stop offset="0" stop-color="#8d8e62"/>
+      <stop offset="0.16" stop-color="#69744b"/>
+      <stop offset="0.5" stop-color="#506541"/>
+      <stop offset="0.8" stop-color="#43603f"/>
+      <stop offset="1" stop-color="#37573f"/>
+    </linearGradient>
+    <linearGradient id="gGreen2" x1="0" y1="0" x2="0.5" y2="1">
+      <stop offset="0" stop-color="#7c7d59"/>
+      <stop offset="0.5" stop-color="#4f6940"/>
+      <stop offset="1" stop-color="#3c5d3d"/>
+    </linearGradient>
+    <linearGradient id="gTanCol" x1="0" y1="0" x2="1" y2="0.2">
+      <stop offset="0" stop-color="#bd9878"/>
+      <stop offset="0.5" stop-color="#d3ac8c"/>
+      <stop offset="1" stop-color="#c19b7c"/>
+    </linearGradient>
+    <linearGradient id="gTanCol2" x1="0" y1="0" x2="1" y2="0.3">
+      <stop offset="0" stop-color="#a08a67"/>
+      <stop offset="0.5" stop-color="#c2a67f"/>
+      <stop offset="1" stop-color="#a8946f"/>
+    </linearGradient>
+    <linearGradient id="gRed" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0" stop-color="#a86e63"/>
+      <stop offset="0.55" stop-color="#9d665c"/>
+      <stop offset="1" stop-color="#8a5a50"/>
+    </linearGradient>
+    <linearGradient id="gBottomOlive" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0" stop-color="#9da45a"/>
+      <stop offset="0.5" stop-color="#8a9157"/>
+      <stop offset="1" stop-color="#6a7c45"/>
+    </linearGradient>
+
+    <!-- ============ painterly filters ============ -->
+    <filter id="wobble" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.011 0.019" numOctaves="3" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="30" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="wobble2" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.021 0.03" numOctaves="2" seed="19" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="18" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="softB" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="16"/>
+    </filter>
+    <filter id="softM" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="9"/>
+    </filter>
+    <filter id="softS" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="4.5"/>
+    </filter>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="matrix"
+        values="0 0 0 0 0.52  0 0 0 0 0.49  0 0 0 0 0.36  0.4 0.4 0.4 0 -0.34"/>
+    </filter>
+    <filter id="grainDark" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="3" seed="12" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="matrix"
+        values="0 0 0 0 0.28  0 0 0 0 0.27  0 0 0 0 0.18  0.5 0.5 0.5 0 -0.42"/>
+    </filter>
+    <filter id="mottle" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.0045 0.007" numOctaves="4" seed="11" result="n"/>
+      <feColorMatrix in="n" type="matrix"
+        values="0 0 0 0 0.40  0 0 0 0 0.38  0 0 0 0 0.25  0.7 0.7 0.7 0 -0.44"/>
+    </filter>
+    <filter id="mottle2" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.02" numOctaves="3" seed="23" result="n"/>
+      <feColorMatrix in="n" type="matrix"
+        values="0 0 0 0 0.62  0 0 0 0 0.60  0 0 0 0 0.42  0.8 0.8 0.8 0 -0.5"/>
+    </filter>
+  </defs>
+
+  <!-- ================= BASE ================= -->
+  <rect x="0" y="0" width="1088" height="1440" fill="#99965f"/>
+
+  <!-- ================= SKY / TOP ================= -->
+  <g filter="url(#wobble)">
+    <path d="M -60,-60 L 500,-60 C 522,46 474,152 382,228 C 300,296 118,320 -60,304 Z" fill="url(#gAmber)"/>
+    <path d="M 420,-70 L 790,-70 C 806,58 756,152 662,198 C 572,238 458,218 414,130 Z" fill="url(#gYellowSky)"/>
+    <path d="M 686,-70 L 1150,-70 L 1150,368 C 1030,352 902,296 822,188 C 782,126 742,32 686,-70 Z" fill="url(#gGraySky)"/>
+
+    <!-- light streaks of the low sun -->
+    <ellipse cx="146" cy="66" rx="240" ry="44" fill="#f9e6a6" opacity="0.55"/>
+    <ellipse cx="330" cy="38" rx="180" ry="32" fill="#fdecb4" opacity="0.45"/>
+    <ellipse cx="92" cy="188" rx="210" ry="52" fill="#efd092" opacity="0.5"/>
+    <ellipse cx="250" cy="240" rx="160" ry="46" fill="#e7cd90" opacity="0.5"/>
+    <ellipse cx="556" cy="66" rx="118" ry="44" fill="#f8f392" opacity="0.8"/>
+    <ellipse cx="648" cy="128" rx="86" ry="32" fill="#e3df82" opacity="0.65"/>
+    <ellipse cx="706" cy="36" rx="80" ry="26" fill="#eeeaa0" opacity="0.5"/>
+    <!-- gray-green masses top right -->
+    <ellipse cx="884" cy="58" rx="140" ry="42" fill="#a6aa9d" opacity="0.6"/>
+    <ellipse cx="1004" cy="146" rx="134" ry="62" fill="#959a80" opacity="0.6"/>
+    <ellipse cx="962" cy="268" rx="122" ry="72" fill="#8a9162" opacity="0.5"/>
+    <ellipse cx="1058" cy="60" rx="100" ry="40" fill="#9fa39b" opacity="0.55"/>
+    <ellipse cx="900" cy="200" rx="90" ry="60" fill="#828444" opacity="0.55"/>
+    <ellipse cx="990" cy="330" rx="90" ry="60" fill="#7f874f" opacity="0.5"/>
+    <!-- small dark olive tuft + salmon + red accents -->
+    <ellipse cx="478" cy="86" rx="44" ry="30" fill="#6f7b43" opacity="0.85"/>
+    <ellipse cx="516" cy="120" rx="30" ry="20" fill="#7c8944" opacity="0.6"/>
+    <ellipse cx="136" cy="120" rx="30" ry="23" fill="#c89573" opacity="0.9"/>
+    <ellipse cx="136" cy="122" rx="16" ry="13" fill="#d9a184" opacity="0.8"/>
+    <ellipse cx="728" cy="36" rx="24" ry="28" fill="#a5655a" opacity="0.85"/>
+    <ellipse cx="722" cy="52" rx="12" ry="12" fill="#8f5c52" opacity="0.7"/>
+  </g>
+
+  <!-- ================= MIDDLE BAND ================= -->
+  <g filter="url(#wobble)">
+    <path d="M -40,216 L 1128,216 C 1128,400 1108,566 1086,676 L -40,720 Z" fill="url(#gOliveMid)"/>
+    <path d="M -40,322 L 424,322 C 434,424 384,516 302,562 L -40,604 Z" fill="url(#gOliveLeft)" opacity="0.92"/>
+  </g>
+
+  <g filter="url(#softB)">
+    <!-- pale gray-olive lit patches -->
+    <ellipse cx="286" cy="508" rx="186" ry="98" fill="#b3ad91" opacity="0.8"/>
+    <ellipse cx="468" cy="466" rx="130" ry="72" fill="#a9a47e" opacity="0.6"/>
+    <ellipse cx="818" cy="526" rx="140" ry="96" fill="#b0ab8e" opacity="0.7"/>
+    <ellipse cx="776" cy="620" rx="90" ry="56" fill="#b0ae91" opacity="0.6"/>
+    <ellipse cx="872" cy="648" rx="96" ry="60" fill="#afb087" opacity="0.6"/>
+    <ellipse cx="962" cy="428" rx="130" ry="106" fill="#909455" opacity="0.6"/>
+    <!-- green mid masses -->
+    <ellipse cx="336" cy="556" rx="120" ry="66" fill="#798946" opacity="0.7"/>
+    <ellipse cx="240" cy="556" rx="110" ry="60" fill="#697f3f" opacity="0.7"/>
+    <ellipse cx="164" cy="562" rx="100" ry="58" fill="#6d7d47" opacity="0.65"/>
+    <ellipse cx="1004" cy="700" rx="110" ry="70" fill="#576940" opacity="0.6"/>
+    <ellipse cx="1062" cy="560" rx="110" ry="100" fill="#878a48" opacity="0.65"/>
+    <ellipse cx="1066" cy="836" rx="90" ry="90" fill="#888b4e" opacity="0.6"/>
+    <!-- dark shadow blobs -->
+    <ellipse cx="576" cy="520" rx="118" ry="90" fill="#5c5351" opacity="0.7"/>
+    <ellipse cx="432" cy="640" rx="92" ry="72" fill="#5e5754" opacity="0.6"/>
+    <ellipse cx="150" cy="688" rx="112" ry="72" fill="#54483f" opacity="0.6"/>
+    <ellipse cx="904" cy="588" rx="92" ry="64" fill="#4e4c31" opacity="0.6"/>
+    <ellipse cx="832" cy="700" rx="70" ry="50" fill="#59573b" opacity="0.6"/>
+    <ellipse cx="690" cy="470" rx="74" ry="54" fill="#77764e" opacity="0.5"/>
+    <ellipse cx="120" cy="428" rx="92" ry="56" fill="#8a7a4c" opacity="0.5"/>
+    <!-- tan patches in the middle -->
+    <ellipse cx="556" cy="596" rx="86" ry="62" fill="#c9a886" opacity="0.8"/>
+    <ellipse cx="502" cy="524" rx="66" ry="50" fill="#caa985" opacity="0.7"/>
+    <ellipse cx="560" cy="612" rx="40" ry="30" fill="#d3ac8c" opacity="0.5"/>
+  </g>
+
+  <!-- small gray-teal + pale spot upper-left of middle band -->
+  <g filter="url(#softM)">
+    <ellipse cx="186" cy="172" rx="66" ry="34" fill="#93a29b" opacity="0.75"/>
+    <ellipse cx="150" cy="166" rx="30" ry="20" fill="#8fc4bc" opacity="0.5"/>
+    <ellipse cx="216" cy="182" rx="34" ry="22" fill="#e6e5da" opacity="0.6"/>
+  </g>
+
+  <!-- ================= RIGHT-SIDE FEATURES ================= -->
+  <g filter="url(#wobble2)">
+    <!-- tall tan column (trunk) -->
+    <path d="M 800,142 C 848,132 890,178 896,262 C 904,356 892,436 874,458 C 848,470 820,412 812,326 C 804,244 788,168 800,142 Z" fill="url(#gTanCol)" opacity="0.95"/>
+    <ellipse cx="866" cy="392" rx="54" ry="76" fill="#d8aa8d" opacity="0.5" filter="url(#softS)"/>
+    <ellipse cx="836" cy="186" rx="46" ry="56" fill="#c7a586" opacity="0.6" filter="url(#softS)"/>
+    <ellipse cx="880" cy="248" rx="38" ry="52" fill="#cca889" opacity="0.5" filter="url(#softS)"/>
+    <!-- dusty red mass at the right edge -->
+    <path d="M 986,204 C 1024,186 1064,192 1082,214 C 1096,242 1090,274 1060,288 C 1026,304 996,298 980,278 C 968,250 970,220 986,204 Z" fill="url(#gRed)"/>
+    <ellipse cx="1010" cy="226" rx="36" ry="24" fill="#a86e63" opacity="0.65" filter="url(#softS)"/>
+    <ellipse cx="1050" cy="262" rx="28" ry="20" fill="#8a5a50" opacity="0.5" filter="url(#softS)"/>
+    <!-- pale patch under the red mass -->
+    <path d="M 980,290 C 1012,278 1050,284 1062,300 C 1070,318 1056,334 1028,340 C 1000,346 976,336 970,320 Z" fill="#efe7d8" opacity="0.95"/>
+    <ellipse cx="1030" cy="312" rx="48" ry="24" fill="#e8e1d6" opacity="0.7" filter="url(#softS)"/>
+    <!-- olive / dark surroundings of the right edge -->
+    <ellipse cx="952" cy="148" rx="112" ry="62" fill="#6b7a45" opacity="0.7" filter="url(#softB)"/>
+    <ellipse cx="932" cy="348" rx="92" ry="72" fill="#768546" opacity="0.65" filter="url(#softB)"/>
+    <ellipse cx="1036" cy="424" rx="92" ry="72" fill="#8f9352" opacity="0.6" filter="url(#softB)"/>
+    <ellipse cx="988" cy="118" rx="82" ry="48" fill="#5f6a3d" opacity="0.5" filter="url(#softB)"/>
+    <ellipse cx="1058" cy="146" rx="60" ry="50" fill="#6d7444" opacity="0.5" filter="url(#softB)"/>
+  </g>
+
+  <!-- ================= LOWER-LEFT SHADOW MASS ================= -->
+  <g filter="url(#softB)">
+    <ellipse cx="46" cy="700" rx="90" ry="90" fill="#6b5334" opacity="0.6"/>
+    <ellipse cx="60" cy="800" rx="80" ry="76" fill="#4e3e3f" opacity="0.55"/>
+    <ellipse cx="140" cy="742" rx="90" ry="60" fill="#54483f" opacity="0.5"/>
+    <ellipse cx="110" cy="840" rx="70" ry="50" fill="#4c4438" opacity="0.5"/>
+  </g>
+
+  <!-- ================= LUMINOUS FIELD ================= -->
+  <g filter="url(#wobble)">
+    <path d="M 112,884 C 252,796 486,782 708,826 C 838,856 880,960 848,1086 C 806,1228 626,1310 424,1316 C 258,1312 116,1224 78,1082 C 56,1000 66,932 112,884 Z" fill="url(#gField)"/>
+  </g>
+  <g filter="url(#softB)">
+    <ellipse cx="300" cy="952" rx="180" ry="90" fill="#fdfaab" opacity="0.5"/>
+    <ellipse cx="642" cy="1006" rx="160" ry="80" fill="#f7f394" opacity="0.55"/>
+    <ellipse cx="764" cy="900" rx="120" ry="70" fill="#f8f48b" opacity="0.6"/>
+    <ellipse cx="246" cy="1136" rx="150" ry="80" fill="#f2ec87" opacity="0.5"/>
+    <ellipse cx="486" cy="1196" rx="170" ry="70" fill="#e8e288" opacity="0.5"/>
+    <ellipse cx="152" cy="880" rx="90" ry="56" fill="#ede688" opacity="0.6"/>
+    <ellipse cx="424" cy="1096" rx="70" ry="60" fill="#f7f38b" opacity="0.6"/>
+  </g>
+
+  <!-- ================= VERTICAL TRUNK BANDS IN THE FIELD ================= -->
+  <g filter="url(#wobble2)">
+    <!-- center band -->
+    <path d="M 384,712 C 420,694 452,712 462,768 C 472,832 470,940 458,1052 C 448,1132 428,1168 408,1160 C 388,1150 376,1060 374,946 C 372,846 366,750 384,712 Z" fill="url(#gTanCol2)"/>
+    <ellipse cx="416" cy="860" rx="34" ry="90" fill="#9c8d72" opacity="0.6" filter="url(#softS)"/>
+    <ellipse cx="420" cy="1010" rx="34" ry="70" fill="#ac9472" opacity="0.6" filter="url(#softS)"/>
+    <path d="M 372,714 C 366,830 368,960 378,1080 C 382,1120 392,1130 390,1120 C 388,1096 380,1000 380,900 C 380,806 382,742 372,714 Z" fill="#57503f" opacity="0.55"/>
+    <path d="M 466,730 C 476,852 472,986 460,1086 C 458,1108 462,1114 466,1100 C 474,1040 480,930 476,830 C 474,780 470,748 466,730 Z" fill="#5e5741" opacity="0.5"/>
+  </g>
+  <g filter="url(#softM)">
+    <!-- left tan mass -->
+    <ellipse cx="244" cy="886" rx="46" ry="66" fill="#c9a07a" opacity="0.7"/>
+    <ellipse cx="258" cy="952" rx="40" ry="56" fill="#bd9a76" opacity="0.55"/>
+    <ellipse cx="214" cy="820" rx="36" ry="44" fill="#b39a72" opacity="0.45"/>
+    <!-- right tan/orange masses -->
+    <ellipse cx="806" cy="880" rx="56" ry="66" fill="#b89a6a" opacity="0.7"/>
+    <ellipse cx="866" cy="930" rx="48" ry="56" fill="#a8925e" opacity="0.6"/>
+    <ellipse cx="930" cy="880" rx="40" ry="46" fill="#b09a64" opacity="0.5"/>
+    <ellipse cx="700" cy="900" rx="52" ry="40" fill="#f6f2d3" opacity="0.6"/>
+    <ellipse cx="654" cy="1060" rx="44" ry="46" fill="#a7a99d" opacity="0.5"/>
+    <ellipse cx="700" cy="1150" rx="70" ry="60" fill="#a1a598" opacity="0.5"/>
+    <ellipse cx="760" cy="1220" rx="60" ry="50" fill="#958461" opacity="0.5"/>
+  </g>
+
+  <!-- ================= CREAM LUMINOUS BLOB ================= -->
+  <g filter="url(#wobble2)">
+    <path d="M 508,726 C 568,710 648,728 662,790 C 674,852 644,904 582,920 C 524,932 492,892 490,830 C 488,780 480,742 508,726 Z" fill="url(#gCream)"/>
+    <ellipse cx="568" cy="788" rx="66" ry="60" fill="#fffce6" opacity="0.6" filter="url(#softS)"/>
+    <ellipse cx="524" cy="862" rx="40" ry="50" fill="#fdf9dc" opacity="0.5" filter="url(#softS)"/>
+    <ellipse cx="630" cy="820" rx="34" ry="40" fill="#fbf7da" opacity="0.5" filter="url(#softS)"/>
+  </g>
+
+  <!-- ================= GROUND ================= -->
+  <g filter="url(#wobble)">
+    <!-- peach bottom-left -->
+    <path d="M -60,826 C 50,840 140,900 172,1000 C 206,1122 204,1270 152,1470 L -60,1470 Z" fill="url(#gPeach)"/>
+    <!-- olive / yellow-green strip bottom-left-center -->
+    <path d="M 116,1246 C 252,1202 424,1226 566,1282 C 628,1324 650,1410 650,1470 L 78,1470 C 90,1372 98,1298 116,1246 Z" fill="url(#gBottomOlive)" opacity="0.9"/>
+    <!-- warm brown floor mass bottom-center -->
+    <path d="M 430,1290 C 500,1262 574,1272 636,1310 C 672,1336 686,1420 686,1470 L 428,1470 C 418,1420 418,1340 430,1290 Z" fill="#96855f" opacity="0.85"/>
+    <!-- dark green mass bottom-right -->
+    <path d="M 636,952 C 766,918 906,940 1008,984 C 1066,1010 1106,1030 1106,1470 L 610,1470 C 590,1280 602,1078 636,952 Z" fill="url(#gGreen)"/>
+    <path d="M 700,1210 C 790,1188 900,1210 990,1250 C 1044,1276 1076,1310 1080,1470 L 660,1470 C 656,1380 668,1276 700,1210 Z" fill="url(#gGreen2)" opacity="0.9"/>
+  </g>
+
+  <g filter="url(#softB)">
+    <ellipse cx="70" cy="1136" rx="92" ry="120" fill="#fdd7b4" opacity="0.45"/>
+    <ellipse cx="46" cy="1318" rx="92" ry="80" fill="#ebcca1" opacity="0.5"/>
+    <ellipse cx="130" cy="898" rx="70" ry="60" fill="#b0916b" opacity="0.5"/>
+    <ellipse cx="120" cy="1300" rx="70" ry="60" fill="#a79b76" opacity="0.5"/>
+    <!-- grays of the lower centre -->
+    <ellipse cx="642" cy="1300" rx="80" ry="60" fill="#a6a99f" opacity="0.55"/>
+    <ellipse cx="520" cy="1400" rx="70" ry="50" fill="#758989" opacity="0.4"/>
+    <ellipse cx="300" cy="1400" rx="90" ry="50" fill="#9fa393" opacity="0.5"/>
+    <ellipse cx="200" cy="1428" rx="80" ry="46" fill="#9da45a" opacity="0.5"/>
+    <ellipse cx="78" cy="1428" rx="70" ry="50" fill="#a79b76" opacity="0.45"/>
+    <!-- greens inside the dark mass -->
+    <ellipse cx="786" cy="1120" rx="120" ry="92" fill="#5e6548" opacity="0.5"/>
+    <ellipse cx="944" cy="1306" rx="150" ry="112" fill="#3c5d3d" opacity="0.5"/>
+    <ellipse cx="702" cy="1078" rx="92" ry="70" fill="#8b8c60" opacity="0.45"/>
+    <ellipse cx="866" cy="1018" rx="92" ry="60" fill="#67724a" opacity="0.5"/>
+    <ellipse cx="846" cy="1258" rx="72" ry="62" fill="#5c7140" opacity="0.55"/>
+    <ellipse cx="1002" cy="1148" rx="72" ry="62" fill="#5c7140" opacity="0.45"/>
+    <ellipse cx="622" cy="1318" rx="62" ry="70" fill="#547040" opacity="0.4"/>
+    <ellipse cx="766" cy="1400" rx="82" ry="52" fill="#435e40" opacity="0.5"/>
+    <ellipse cx="884" cy="1350" rx="60" ry="60" fill="#667847" opacity="0.5"/>
+    <ellipse cx="952" cy="1428" rx="60" ry="50" fill="#5a6a34" opacity="0.5"/>
+  </g>
+
+  <!-- ================= SCATTER OF SMALL DABS ================= -->
+  <g opacity="0.45" filter="url(#softS)">
+    <ellipse cx="60" cy="300" rx="70" ry="26" fill="#c9a76f"/>
+    <ellipse cx="250" cy="330" rx="80" ry="30" fill="#a8956a"/>
+    <ellipse cx="520" cy="298" rx="90" ry="30" fill="#9aa05c"/>
+    <ellipse cx="800" cy="310" rx="70" ry="26" fill="#8f9463"/>
+    <ellipse cx="1042" cy="330" rx="70" ry="34" fill="#7f8a56"/>
+    <ellipse cx="180" cy="420" rx="80" ry="30" fill="#8d7c4e"/>
+    <ellipse cx="420" cy="380" rx="70" ry="28" fill="#7c8944"/>
+    <ellipse cx="660" cy="420" rx="80" ry="30" fill="#85884a"/>
+    <ellipse cx="980" cy="480" rx="80" ry="34" fill="#7d8443"/>
+    <ellipse cx="130" cy="560" rx="70" ry="32" fill="#969b90"/>
+    <ellipse cx="300" cy="600" rx="90" ry="34" fill="#8a8f75"/>
+    <ellipse cx="470" cy="560" rx="70" ry="28" fill="#6f6a5c"/>
+    <ellipse cx="620" cy="620" rx="80" ry="30" fill="#767253"/>
+    <ellipse cx="760" cy="580" rx="70" ry="30" fill="#9c9a7c"/>
+    <ellipse cx="1002" cy="640" rx="80" ry="30" fill="#6d7444"/>
+    <ellipse cx="80" cy="760" rx="60" ry="30" fill="#7c6849"/>
+    <ellipse cx="210" cy="800" rx="70" ry="30" fill="#6a7b43"/>
+    <ellipse cx="332" cy="880" rx="60" ry="28" fill="#8b7f60"/>
+    <ellipse cx="880" cy="766" rx="70" ry="30" fill="#8f9352"/>
+    <ellipse cx="170" cy="960" rx="60" ry="30" fill="#e9c39c"/>
+    <ellipse cx="420" cy="1000" rx="60" ry="26" fill="#d9d488"/>
+    <ellipse cx="566" cy="1060" rx="70" ry="30" fill="#a7a99d"/>
+    <ellipse cx="680" cy="900" rx="60" ry="26" fill="#f8f48b"/>
+    <ellipse cx="240" cy="1076" rx="70" ry="30" fill="#efea8c"/>
+    <ellipse cx="902" cy="1100" rx="70" ry="34" fill="#5e6548"/>
+    <ellipse cx="962" cy="1240" rx="80" ry="40" fill="#4a5f3f"/>
+    <ellipse cx="360" cy="1300" rx="70" ry="30" fill="#6d804a"/>
+    <ellipse cx="220" cy="1396" rx="70" ry="30" fill="#7c864d"/>
+    <ellipse cx="1080" cy="900" rx="60" ry="50" fill="#6f6c48"/>
+    <ellipse cx="1080" cy="500" rx="60" ry="50" fill="#79834c"/>
+  </g>
+
+  <!-- ================= MEDIUM MOTTLE / BRUSH DABS ================= -->
+  <g opacity="0.5" filter="url(#softM)">
+    <ellipse cx="90" cy="140" rx="46" ry="22" fill="#e8c98e"/>
+    <ellipse cx="390" cy="120" rx="52" ry="20" fill="#e3bd7c"/>
+    <ellipse cx="600" cy="108" rx="44" ry="18" fill="#f3eda0"/>
+    <ellipse cx="760" cy="190" rx="46" ry="20" fill="#9fa38f"/>
+    <ellipse cx="900" cy="90" rx="48" ry="20" fill="#b3b3a4"/>
+    <ellipse cx="1010" cy="240" rx="44" ry="22" fill="#8b8f55"/>
+    <ellipse cx="240" cy="240" rx="50" ry="20" fill="#dfc188"/>
+    <ellipse cx="560" cy="240" rx="52" ry="20" fill="#a3a35e"/>
+    <ellipse cx="700" cy="300" rx="46" ry="18" fill="#8d9556"/>
+    <ellipse cx="340" cy="360" rx="50" ry="20" fill="#84894c"/>
+    <ellipse cx="60" cy="430" rx="44" ry="20" fill="#94834f"/>
+    <ellipse cx="480" cy="420" rx="50" ry="20" fill="#9c9c72"/>
+    <ellipse cx="640" cy="440" rx="44" ry="18" fill="#7c7a53"/>
+    <ellipse cx="880" cy="430" rx="46" ry="20" fill="#969960"/>
+    <ellipse cx="1040" cy="470" rx="44" ry="22" fill="#82884a"/>
+    <ellipse cx="180" cy="500" rx="50" ry="20" fill="#a29c74"/>
+    <ellipse cx="410" cy="540" rx="46" ry="20" fill="#8f8f6d"/>
+    <ellipse cx="640" cy="560" rx="46" ry="20" fill="#8e8b62"/>
+    <ellipse cx="920" cy="540" rx="44" ry="20" fill="#8b8f52"/>
+    <ellipse cx="90" cy="620" rx="44" ry="22" fill="#7e7450"/>
+    <ellipse cx="290" cy="650" rx="50" ry="20" fill="#7c8a48"/>
+    <ellipse cx="500" cy="660" rx="46" ry="20" fill="#a49f7a"/>
+    <ellipse cx="760" cy="680" rx="46" ry="20" fill="#9a9a76"/>
+    <ellipse cx="1000" cy="700" rx="44" ry="20" fill="#6e7747"/>
+    <ellipse cx="360" cy="760" rx="46" ry="20" fill="#8b8a5e"/>
+    <ellipse cx="560" cy="740" rx="44" ry="18" fill="#c6c29a"/>
+    <ellipse cx="740" cy="790" rx="44" ry="18" fill="#d8d293"/>
+    <ellipse cx="940" cy="800" rx="44" ry="20" fill="#968f58"/>
+    <ellipse cx="120" cy="1000" rx="44" ry="20" fill="#eec79c"/>
+    <ellipse cx="300" cy="1060" rx="50" ry="20" fill="#f4ef8e"/>
+    <ellipse cx="520" cy="1120" rx="46" ry="20" fill="#e6df8c"/>
+    <ellipse cx="660" cy="1020" rx="44" ry="18" fill="#c9c58c"/>
+    <ellipse cx="820" cy="1060" rx="44" ry="20" fill="#6c744c"/>
+    <ellipse cx="960" cy="1060" rx="46" ry="22" fill="#556248"/>
+    <ellipse cx="180" cy="1180" rx="46" ry="20" fill="#efd7ae"/>
+    <ellipse cx="380" cy="1240" rx="48" ry="20" fill="#b7b168"/>
+    <ellipse cx="560" cy="1260" rx="46" ry="20" fill="#a89e73"/>
+    <ellipse cx="800" cy="1180" rx="44" ry="20" fill="#5b6a45"/>
+    <ellipse cx="1000" cy="1360" rx="46" ry="22" fill="#45603e"/>
+    <ellipse cx="240" cy="1330" rx="46" ry="20" fill="#9aa159"/>
+  </g>
+
+  <!-- vertical stalk strokes in the lit field -->
+  <g opacity="0.3" stroke-linecap="round" fill="none">
+    <path d="M 200,900 C 204,960 206,1030 202,1100" stroke="#d8cf7d" stroke-width="10"/>
+    <path d="M 268,880 C 272,950 274,1030 270,1104" stroke="#e2da86" stroke-width="12"/>
+    <path d="M 340,900 C 344,960 346,1030 342,1090" stroke="#cbc373" stroke-width="10"/>
+    <path d="M 512,960 C 516,1020 518,1080 514,1140" stroke="#efe886" stroke-width="12"/>
+    <path d="M 604,940 C 608,1000 610,1070 606,1130" stroke="#ded67f" stroke-width="12"/>
+    <path d="M 690,960 C 694,1030 696,1100 692,1170" stroke="#a9a165" stroke-width="12"/>
+    <path d="M 716,700 C 720,780 722,880 718,980" stroke="#7c7449" stroke-width="14"/>
+    <path d="M 250,760 C 254,830 256,900 252,960" stroke="#8d8a52" stroke-width="10"/>
+    <path d="M 320,720 C 324,790 326,860 322,920" stroke="#9d9a60" stroke-width="10"/>
+    <path d="M 960,1080 C 964,1160 966,1250 962,1330" stroke="#61704a" stroke-width="16"/>
+    <path d="M 1040,1120 C 1044,1200 1046,1290 1042,1370" stroke="#4c6544" stroke-width="16"/>
+    <path d="M 868,1100 C 872,1180 874,1260 870,1340" stroke="#5a6a45" stroke-width="14"/>
+  </g>
+
+  <!-- small warm-red dabs in the middle ground -->
+  <g opacity="0.5" filter="url(#softS)">
+    <ellipse cx="668" cy="388" rx="20" ry="26" fill="#a5655a"/>
+    <ellipse cx="744" cy="470" rx="18" ry="22" fill="#9d665c"/>
+    <ellipse cx="972" cy="512" rx="16" ry="20" fill="#a06a5e"/>
+    <ellipse cx="486" cy="352" rx="18" ry="20" fill="#a86e63"/>
+  </g>
+
+  <!-- ================= FINE TEXTURE OVERLAYS ================= -->
+  <rect x="0" y="0" width="1088" height="1440" filter="url(#mottle)" opacity="0.3"/>
+  <rect x="0" y="0" width="1088" height="1440" filter="url(#mottle2)" opacity="0.22"/>
+  <rect x="0" y="0" width="1088" height="1440" filter="url(#grain)" opacity="0.42"/>
+  <rect x="0" y="0" width="1088" height="1440" filter="url(#grainDark)" opacity="0.22"/>
+  <!-- soft vignette -->
+  <rect x="-20" y="-20" width="1128" height="1480" fill="none" stroke="#3e442e" stroke-width="200" opacity="0.12"/>
+</svg>
+</div>
+</body>
+</html>

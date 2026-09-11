@@ -1,0 +1,14 @@
+{
+  "caseId": "01-flat-scene",
+  "createdAt": "2026-09-06T09:34:54.165Z",
+  "piVersion": "0.85.1",
+  "systemPromptMode": "cwd-only",
+  "transportCompatibility": "extensions/sudocode-claude-code-compat.ts",
+  "requestedProvider": "sudocode",
+  "requestedModel": "claude-fable-5-1",
+  "requestedThinking": "max",
+  "image": "01-flat-scene/IMG_20260904_171523.png",
+  "width": 1440,
+  "height": 805,
+  "output": "work/index.html"
+}

@@ -1,0 +1,13 @@
+{
+  "caseId": "02-3d-character",
+  "createdAt": "2026-09-06T05:18:06.515Z",
+  "piVersion": "0.85.1",
+  "systemPromptMode": "cwd-only",
+  "requestedProvider": "openai-codex",
+  "requestedModel": "gpt-5.6-sol",
+  "requestedThinking": "max",
+  "image": "02-3d-character/Image_1785586456559_992.jpg",
+  "width": 1080,
+  "height": 1920,
+  "output": "work/index.html"
+}

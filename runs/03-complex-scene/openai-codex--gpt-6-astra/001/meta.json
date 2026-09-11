@@ -1,0 +1,13 @@
+{
+  "caseId": "03-complex-scene",
+  "createdAt": "2026-09-06T04:40:40.651Z",
+  "piVersion": "0.85.1",
+  "systemPromptMode": "cwd-only",
+  "requestedProvider": "openai-codex",
+  "requestedModel": "gpt-6-astra",
+  "requestedThinking": "max",
+  "image": "03-complex-scene/1788282455641.png",
+  "width": 1088,
+  "height": 1440,
+  "output": "work/index.html"
+}

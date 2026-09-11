@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scene Recreation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            width: 1088px;
+            height: 1440px;
+            overflow: hidden;
+            position: relative;
+            background: #6b8c3a;
+        }
+        
+        .canvas {
+            width: 1088px;
+            height: 1440px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Background grass layers */
+        .grass-base {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #8ba84e 0%, #5d7a32 40%, #6b8c3a 60%, #7d9943 100%);
+        }
+        
+        .grass-shadow {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60%;
+            height: 70%;
+            background: radial-gradient(ellipse at 70% 30%, rgba(75, 95, 40, 0.7) 0%, transparent 60%);
+        }
+        
+        /* Light patch where character lies */
+        .light-patch {
+            position: absolute;
+            top: 45%;
+            left: 35%;
+            width: 450px;
+            height: 550px;
+            background: radial-gradient(ellipse at center, #d4e89f 0%, #b8d16f 30%, transparent 70%);
+            transform: rotate(-15deg);
+            opacity: 0.8;
+        }
+        
+        /* Indoor scene upper left */
+        .indoor-scene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 400px;
+            height: 350px;
+            background: linear-gradient(135deg, #f4d19b 0%, #e8be7a 50%, #d4a968 100%);
+            clip-path: polygon(0 0, 100% 0, 60% 100%, 0 85%);
+            opacity: 0.9;
+        }
+        
+        .indoor-details {
+            position: absolute;
+            top: 40px;
+            left: 50px;
+            width: 250px;
+            height: 200px;
+        }
+        
+        /* Wooden planks in indoor scene */
+        .plank {
+            position: absolute;
+            background: #b89968;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .plank1 {
+            top: 20px;
+            left: 10px;
+            width: 120px;
+            height: 15px;
+            transform: rotate(-25deg);
+        }
+        
+        .plank2 {
+            top: 80px;
+            left: -20px;
+            width: 140px;
+            height: 18px;
+            transform: rotate(-35deg);
+        }
+        
+        /* White flowers scattered */
+        .flower {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #ffffff 40%, #f0f0f0 70%, transparent 100%);
+            border-radius: 50%;
+            opacity: 0.9;
+        }
+        
+        /* Butterflies/fairies */
+        .butterfly {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            opacity: 0.95;
+        }
+        
+        /* Shoes */
+        .shoe {
+            position: absolute;
+            background: #6b4e3d;
+            border-radius: 40% 60% 50% 50%;
+        }
+        
+        .shoe-left {
+            top: 750px;
+            left: 200px;
+            width: 80px;
+            height: 50px;
+            transform: rotate(-35deg);
+            background: linear-gradient(135deg, #7a5a47 0%, #5d4435 100%);
+        }
+        
+        .shoe-right {
+            top: 720px;
+            left: 150px;
+            width: 85px;
+            height: 52px;
+            transform: rotate(-15deg);
+            background: linear-gradient(135deg, #6b4e3d 0%, #53392b 100%);
+        }
+        
+        .shoe-sole {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 15px;
+            background: #d4b896;
+            border-radius: 0 0 40% 40%;
+        }
+    </style>
+</head>
+<body>
+    <div class="canvas">
+        <!-- Background layers -->
+        <div class="grass-base"></div>
+        <div class="grass-shadow"></div>
+        <div class="light-patch"></div>
+        
+        <!-- Indoor scene -->
+        <div class="indoor-scene">
+            <div class="indoor-details">
+                <div class="plank plank1"></div>
+                <div class="plank plank2"></div>
+            </div>
+        </div>
+        
+        <!-- Main SVG for character and complex elements -->
+        <svg width="1088" height="1440" style="position: absolute; top: 0; left: 0;">
+            <defs>
+                <!-- Gradients for character -->
+                <linearGradient id="skinGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#fde8d8;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#f5d5c0;stop-opacity:1" />
+                </linearGradient>
+                
+                <linearGradient id="hairGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#e8e8dc;stop-opacity:1" />
+                    <stop offset="50%" style="stop-color:#d8d8c8;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#c8c8b8;stop-opacity:1" />
+                </linearGradient>
+                
+                <linearGradient id="dressGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#d5e8d0;stop-opacity:1" />
+                    <stop offset="50%" style="stop-color:#c0dbb8;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#b0cca8;stop-opacity:1" />
+                </linearGradient>
+                
+                <linearGradient id="stockingGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#4a4a4a;stop-opacity:0.85" />
+                    <stop offset="100%" style="stop-color:#2a2a2a;stop-opacity:0.9" />
+                </linearGradient>
+                
+                <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+                    <stop offset="40%" style="stop-color:#f0f8e8;stop-opacity:0.8" />
+                    <stop offset="100%" style="stop-color:#d8e8c8;stop-opacity:0" />
+                </radialGradient>
+            </defs>
+            
+            <!-- Tree/wood element upper right -->
+            <path d="M 850 0 L 900 0 L 920 150 L 900 300 L 850 280 L 830 150 Z" 
+                  fill="#6b5d3f" opacity="0.7"/>
+            
+            <!-- Character's hair (back layer) -->
+            <path d="M 420 280 Q 380 320 360 380 Q 350 420 355 460 Q 360 500 380 540 
+                     Q 400 560 420 550 Q 400 520 390 480 Q 385 440 395 400 Q 410 360 440 330 Z" 
+                  fill="url(#hairGrad)" opacity="0.85"/>
+            
+            <path d="M 520 300 Q 560 330 590 370 Q 610 410 615 450 Q 618 490 605 530 
+                     Q 590 555 570 550 Q 585 520 595 480 Q 598 440 585 405 Q 565 365 535 335 Z" 
+                  fill="url(#hairGrad)" opacity="0.85"/>
+            
+            <!-- Legs with stockings -->
+            <ellipse cx="420" cy="900" rx="42" ry="190" 
+                     fill="url(#stockingGrad)" transform="rotate(-25 420 900)"/>
+            <ellipse cx="520" cy="880" rx="45" ry="200" 
+                     fill="url(#stockingGrad)" transform="rotate(15 520 880)"/>
+            
+            <!-- Feet -->
+            <ellipse cx="380" cy="1020" rx="30" ry="18" fill="#fde8d8" transform="rotate(-30 380 1020)"/>
+            <ellipse cx="560" cy="1000" rx="32" ry="20" fill="#fde8d8" transform="rotate(25 560 1000)"/>
+            
+            <!-- Dress/clothing body -->
+            <path d="M 390 620 Q 380 650 380 690 L 385 750 Q 390 780 410 800 
+                     L 520 800 Q 540 780 545 750 L 550 690 Q 550 650 540 620 
+                     Q 530 580 490 570 L 440 570 Q 400 580 390 620 Z" 
+                  fill="url(#dressGrad)" stroke="#b8d0a8" stroke-width="2"/>
+            
+            <!-- Dress collar/upper part -->
+            <path d="M 420 570 Q 410 560 410 540 L 415 515 Q 420 490 440 485 
+                     L 490 485 Q 510 490 515 515 L 520 540 Q 520 560 510 570 Z" 
+                  fill="url(#dressGrad)" stroke="#c0dbb8" stroke-width="1.5"/>
+            
+            <!-- Arms -->
+            <ellipse cx="370" cy="600" rx="28" ry="85" fill="url(#skinGrad)" 
+                     transform="rotate(-45 370 600)"/>
+            <path d="M 340 560 Q 320 540 300 520 L 285 505 Q 275 495 270 490 
+                     Q 280 485 290 490 L 310 510 Q 330 530 350 550 Z" 
+                  fill="url(#skinGrad)"/>
+            
+            <ellipse cx="560" cy="620" rx="30" ry="90" fill="url(#skinGrad)" 
+                     transform="rotate(40 560 620)"/>
+            
+            <!-- Right hand reaching up -->
+            <ellipse cx="585" cy="540" rx="22" ry="32" fill="url(#skinGrad)" 
+                     transform="rotate(35 585 540)"/>
+            <circle cx="590" cy="525" r="18" fill="url(#skinGrad)"/>
+            <path d="M 575 515 L 580 495 L 585 515 L 590 500 L 595 515 L 600 505 L 603 518" 
+                  stroke="url(#skinGrad)" stroke-width="5" fill="none" stroke-linecap="round"/>
+            
+            <!-- Left hand -->
+            <circle cx="255" cy="480" r="16" fill="url(#skinGrad)"/>
+            <path d="M 245 475 L 240 465 L 250 470 L 248 460 L 257 468 L 260 458 L 265 468" 
+                  stroke="url(#skinGrad)" stroke-width="4" fill="none" stroke-linecap="round"/>
+            
+            <!-- Neck -->
+            <rect x="445" y="475" width="50" height="35" fill="url(#skinGrad)" rx="8"/>
+            
+            <!-- Head -->
+            <ellipse cx="470" cy="420" rx="85" ry="95" fill="url(#skinGrad)"/>
+            
+            <!-- Hair (front layers) -->
+            <path d="M 385 380 Q 370 360 365 340 Q 360 320 365 300 Q 375 280 395 275 
+                     Q 420 270 445 275 Q 470 280 490 285 Q 515 290 535 300 
+                     Q 555 310 565 330 Q 572 350 570 370 Q 565 390 550 400 
+                     L 540 420 Q 530 400 510 390 Q 480 375 450 375 Q 420 378 400 390 Z" 
+                  fill="url(#hairGrad)"/>
+            
+            <!-- Hair bangs -->
+            <path d="M 410 340 Q 405 355 408 370 L 418 360 Q 420 345 422 335 Z" 
+                  fill="url(#hairGrad)" opacity="0.9"/>
+            <path d="M 435 335 Q 432 350 433 365 L 443 355 Q 445 340 445 330 Z" 
+                  fill="url(#hairGrad)" opacity="0.9"/>
+            <path d="M 460 333 Q 458 348 460 363 L 470 353 Q 472 338 470 328 Z" 
+                  fill="url(#hairGrad)" opacity="0.9"/>
+            <path d="M 485 335 Q 483 350 486 365 L 496 355 Q 498 340 495 330 Z" 
+                  fill="url(#hairGrad)" opacity="0.9"/>
+            <path d="M 510 340 Q 508 355 512 370 L 522 360 Q 524 345 520 335 Z" 
+                  fill="url(#hairGrad)" opacity="0.9"/>
+            
+            <!-- Hair side locks flowing -->
+            <path d="M 380 400 Q 360 420 350 450 Q 345 480 350 510 Q 355 540 370 560 
+                     Q 375 540 372 515 Q 370 485 375 455 Q 382 425 395 410 Z" 
+                  fill="url(#hairGrad)" opacity="0.85"/>
+            
+            <path d="M 560 410 Q 580 430 595 460 Q 605 490 605 520 Q 602 550 590 570 
+                     Q 585 550 587 525 Q 590 495 585 465 Q 578 435 565 420 Z" 
+                  fill="url(#hairGrad)" opacity="0.85"/>
+            
+            <!-- Eyes -->
+            <ellipse cx="440" cy="415" rx="18" ry="22" fill="#e8f4f8"/>
+            <ellipse cx="440" cy="415" rx="13" ry="18" fill="#5ba8c8"/>
+            <ellipse cx="440" cy="410" rx="8" ry="12" fill="#2a4a5a"/>
+            <ellipse cx="437" cy="407" rx="4" ry="6" fill="#ffffff"/>
+            
+            <ellipse cx="500" cy="415" rx="18" ry="22" fill="#e8f4f8"/>
+            <ellipse cx="500" cy="415" rx="13" ry="18" fill="#5ba8c8"/>
+            <ellipse cx="500" cy="410" rx="8" ry="12" fill="#2a4a5a"/>
+            <ellipse cx="497" cy="407" rx="4" ry="6" fill="#ffffff"/>
+            
+            <!-- Eyebrows -->
+            <path d="M 418 390 Q 435 387 452 390" stroke="#b8b8a8" stroke-width="2.5" 
+                  fill="none" stroke-linecap="round"/>
+            <path d="M 478 390 Q 495 387 512 390" stroke="#b8b8a8" stroke-width="2.5" 
+                  fill="none" stroke-linecap="round"/>
+            
+            <!-- Nose -->
+            <path d="M 468 430 Q 470 438 468 442" stroke="#e8d0c0" stroke-width="1.5" 
+                  fill="none" stroke-linecap="round"/>
+            
+            <!-- Mouth -->
+            <path d="M 455 455 Q 470 458 485 455" stroke="#d8b8a8" stroke-width="2" 
+                  fill="none" stroke-linecap="round"/>
+            
+            <!-- Ear hint -->
+            <ellipse cx="555" cy="430" rx="12" ry="18" fill="#f5d5c0" opacity="0.7"/>
+            
+            <!-- Book or object in hand -->
+            <rect x="435" y="620" width="60" height="80" fill="#4a4a4a" rx="3" 
+                  transform="rotate(-15 465 660)"/>
+            <rect x="437" y="622" width="56" height="76" fill="#6a6a6a" rx="2" 
+                  transform="rotate(-15 465 660)"/>
+            
+            <!-- White flowers -->
+            <g class="flowers">
+                <circle cx="320" cy="850" r="12" fill="#ffffff" opacity="0.9"/>
+                <circle cx="325" cy="848" r="4" fill="#f8f8d8" opacity="0.8"/>
+                
+                <circle cx="420" cy="1050" r="14" fill="#ffffff" opacity="0.9"/>
+                <circle cx="425" cy="1047" r="5" fill="#f8f8d8" opacity="0.8"/>
+                
+                <circle cx="650" cy="950" r="11" fill="#ffffff" opacity="0.9"/>
+                <circle cx="654" cy="948" r="4" fill="#f8f8d8" opacity="0.8"/>
+                
+                <circle cx="280" cy="1100" r="13" fill="#ffffff" opacity="0.9"/>
+                <circle cx="284" cy="1097" r="4" fill="#f8f8d8" opacity="0.8"/>
+                
+                <circle cx="720" cy="1080" r="12" fill="#ffffff" opacity="0.9"/>
+                <circle cx="724" cy="1077" r="4" fill="#f8f8d8" opacity="0.8"/>
+                
+                <circle cx="550" cy="1150" r="14" fill="#ffffff" opacity="0.9"/>
+                <circle cx="555" cy="1147" r="5" fill="#f8f8d8" opacity="0.8"/>
+                
+                <circle cx="180" cy="980" r="10" fill="#ffffff" opacity="0.9"/>
+                <circle cx="183" cy="978" r="3" fill="#f8f8d8" opacity="0.8"/>
+                
+                <circle cx="800" cy="820" r="11" fill="#ffffff" opacity="0.9"/>
+                <circle cx="804" cy="818" r="4" fill="#f8f8d8" opacity="0.8"/>
+                
+                <circle cx="680" cy="1200" r="13" fill="#ffffff" opacity="0.9"/>
+                <circle cx="685" cy="1197" r="4" fill="#f8f8d8" opacity="0.8"/>
+                
+                <circle cx="380" cy="1200" r="12" fill="#ffffff" opacity="0.9"/>
+                <circle cx="384" cy="1197" r="4" fill="#f8f8d8" opacity="0.8"/>
+            </g>
+            
+            <!-- Butterflies/fairies -->
+            <g class="butterfly-1" opacity="0.95">
+                <ellipse cx="220" cy="200" rx="15" ry="8" fill="url(#glowGrad)" transform="rotate(-30 220 200)"/>
+                <ellipse cx="240" cy="195" rx="15" ry="8" fill="url(#glowGrad)" transform="rotate(30 240 195)"/>
+                <ellipse cx="230" cy="200" rx="6" ry="10" fill="#f8f8f8"/>
+                <path d="M 228 195 Q 230 185 232 195" stroke="#e8e8d8" stroke-width="1.5"/>
+            </g>
+            
+            <g class="butterfly-2" opacity="0.95">
+                <ellipse cx="820" cy="280" rx="13" ry="7" fill="url(#glowGrad)" transform="rotate(-25 820 280)"/>
+                <ellipse cx="838" cy="276" rx="13" ry="7" fill="url(#glowGrad)" transform="rotate(25 838 276)"/>
+                <ellipse cx="829" cy="280" rx="5" ry="9" fill="#f8f8f8"/>
+                <path d="M 827 276 Q 829 268 831 276" stroke="#e8e8d8" stroke-width="1.5"/>
+            </g>
+            
+            <g class="butterfly-3" opacity="0.95">
+                <ellipse cx="850" cy="450" rx="14" ry="7" fill="url(#glowGrad)" transform="rotate(-20 850 450)"/>
+                <ellipse cx="868" cy="446" rx="14" ry="7" fill="url(#glowGrad)" transform="rotate(20 868 446)"/>
+                <ellipse cx="859" cy="450" rx="5" ry="9" fill="#f8f8f8"/>
+                <path d="M 857 446 Q 859 438 861 446" stroke="#e8e8d8" stroke-width="1.5"/>
+            </g>
+            
+            <!-- Grass texture elements -->
+            <g opacity="0.3">
+                <path d="M 100 600 Q 102 550 105 600" stroke="#4a5f28" stroke-width="2"/>
+                <path d="M 150 680 Q 153 630 156 680" stroke="#4a5f28" stroke-width="2"/>
+                <path d="M 250 550 Q 252 510 255 550" stroke="#5a6f38" stroke-width="2"/>
+                <path d="M 700 900 Q 703 860 706 900" stroke="#4a5f28" stroke-width="2"/>
+                <path d="M 850 1100 Q 853 1060 856 1100" stroke="#5a6f38" stroke-width="2"/>
+                <path d="M 920 750 Q 922 710 925 750" stroke="#4a5f28" stroke-width="2"/>
+            </g>
+            
+            <!-- Additional indoor scene elements -->
+            <g class="indoor-items">
+                <circle cx="120" cy="150" r="18" fill="#e8a878" opacity="0.7"/>
+                <rect x="160" y="110" width="35" height="25" fill="#a8c8d8" rx="3" opacity="0.6"/>
+                <circle cx="250" cy="180" r="12" fill="#d8e8c8" opacity="0.5"/>
+            </g>
+            
+            <!-- Shadow under character -->
+            <ellipse cx="470" cy="1050" rx="180" ry="80" fill="#000000" opacity="0.12" 
+                     transform="rotate(-8 470 1050)"/>
+            
+            <!-- Additional scattered small details -->
+            <circle cx="750" cy="600" r="8" fill="#e8e8d8" opacity="0.6"/>
+            <circle cx="150" cy="1300" r="6" fill="#f8f8e8" opacity="0.5"/>
+            <rect x="900" y="1200" width="40" height="15" fill="#c8b898" rx="3" opacity="0.4" transform="rotate(25 920 1207)"/>
+        </svg>
+        
+        <!-- Shoes with sole details -->
+        <div class="shoe shoe-right">
+            <div class="shoe-sole"></div>
+        </div>
+        <div class="shoe shoe-left">
+            <div class="shoe-sole"></div>
+        </div>
+        
+        <!-- Additional flower elements as HTML -->
+        <div class="flower" style="top: 720px; left: 580px;"></div>
+        <div class="flower" style="top: 1280px; left: 450px;"></div>
+        <div class="flower" style="top: 890px; left: 780px;"></div>
+        <div class="flower" style="top: 1150px; left: 220px;"></div>
+        <div class="flower" style="top: 1020px; left: 920px;"></div>
+        <div class="flower" style="top: 760px; left: 350px;"></div>
+        <div class="flower" style="top: 1340px; left: 650px;"></div>
+        <div class="flower" style="top: 960px; left: 480px;"></div>
+        
+    </div>
+</body>
+</html>

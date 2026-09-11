@@ -1,0 +1,14 @@
+{
+  "caseId": "01-flat-scene",
+  "createdAt": "2026-09-11T13:24:53.174Z",
+  "piVersion": "0.85.1",
+  "systemPromptMode": "cwd-only",
+  "transportCompatibility": null,
+  "requestedProvider": "deepseek",
+  "requestedModel": "deepseek-v4-flash",
+  "requestedThinking": "max",
+  "image": "01-flat-scene/IMG_20260904_171523.png",
+  "width": 1440,
+  "height": 805,
+  "output": "work/index.html"
+}
