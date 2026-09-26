@@ -25,16 +25,18 @@ runs/<用例>/<渠道--模型>/001/work/index.html
 
 每张图由左至右为：原图、Astra、Sol、Gemini、Claude Fable 5.1、DeepSeek、Claude Opus 5.5。点击图片查看原尺寸。
 
+<!-- 图片链接固定到对应提交以避免分支缓存；更新拼图后需同步更新链接中的提交号。 -->
+
 ### 01 · 平面场景
 
-[![平面场景：原图与六个模型的横向对比](comparisons/01-flat-scene.webp)](comparisons/01-flat-scene.webp)
+[![平面场景：原图与六个模型的横向对比](https://raw.githubusercontent.com/umineko987/OneShot-CSS-Draw/cc6f2fe34e6a0b3f6ebbf1e5af4fe7b244bad067/comparisons/01-flat-scene.webp)](https://raw.githubusercontent.com/umineko987/OneShot-CSS-Draw/cc6f2fe34e6a0b3f6ebbf1e5af4fe7b244bad067/comparisons/01-flat-scene.webp)
 
 ### 02 · 立体角色
 
-[![立体角色：原图与六个模型的横向对比](comparisons/02-3d-character.webp)](comparisons/02-3d-character.webp)
+[![立体角色：原图与六个模型的横向对比](https://raw.githubusercontent.com/umineko987/OneShot-CSS-Draw/cc6f2fe34e6a0b3f6ebbf1e5af4fe7b244bad067/comparisons/02-3d-character.webp)](https://raw.githubusercontent.com/umineko987/OneShot-CSS-Draw/cc6f2fe34e6a0b3f6ebbf1e5af4fe7b244bad067/comparisons/02-3d-character.webp)
 
 ### 03 · 复杂场景
 
-[![复杂场景：原图与六个模型的横向对比](comparisons/03-complex-scene.webp)](comparisons/03-complex-scene.webp)
+[![复杂场景：原图与六个模型的横向对比](https://raw.githubusercontent.com/umineko987/OneShot-CSS-Draw/cc6f2fe34e6a0b3f6ebbf1e5af4fe7b244bad067/comparisons/03-complex-scene.webp)](https://raw.githubusercontent.com/umineko987/OneShot-CSS-Draw/cc6f2fe34e6a0b3f6ebbf1e5af4fe7b244bad067/comparisons/03-complex-scene.webp)
 
 **样本数较少，仅供娱乐。**
