@@ -9,8 +9,10 @@ import { EnvHttpProxyAgent, install, setGlobalDispatcher } from 'undici';
 import { FileCredentials, createRedactor } from './credentials.mjs';
 import { loadModels, readJson } from './models.mjs';
 import { createTools } from './tools.mjs';
-import { detectSupportedImageMimeType, processImage } from './images.mjs';
+import { deduplicateImages, detectSupportedImageMimeType, processImage } from './images.mjs';
 import { login } from './login.mjs';
+import lockfile from 'proper-lockfile';
+import { loadSession } from './sessions.mjs';
 
 const harnessDir = import.meta.dirname;
 const projectDir = path.dirname(harnessDir);
@@ -26,14 +28,16 @@ async function main() {
   const { values, positionals } = parseArgs({
     options: {
       provider: { type: 'string' }, model: { type: 'string' }, thinking: { type: 'string' },
+      continue: { type: 'string' },
       proxy: { type: 'string' }, login: { type: 'string' }, 'auth-method': { type: 'string' },
       'list-models': { type: 'boolean' }, help: { type: 'boolean', short: 'h' },
     }, allowPositionals: true,
   });
   const cases = readJson(path.join(harnessDir, 'cases.json'));
-  if (values.help || (!positionals.length && !values.login && !values['list-models'])) {
+  if (values.help || (!positionals.length && !values.continue && !values.login && !values['list-models'])) {
     console.log(`用法（从项目根目录）：
   npm --prefix harness start -- <用例> [--provider 渠道 --model 完整模型ID] [--thinking 等级] [--proxy 地址]
+  npm --prefix harness start -- --continue runs/<用例>/<渠道--模型>/<轮次> [--proxy 地址]
   npm --prefix harness start -- --list-models [--provider 渠道]
   npm --prefix harness start -- --login 渠道 [--auth-method oauth|api_key] [--proxy 地址]
 
@@ -51,12 +55,21 @@ proxy：127.0.0.1:7890 或 HTTP/HTTPS URL；仅本次生效，省略时沿用环
     || (values.login && values['list-models']) || (values['auth-method'] && !values.login)) {
     throw new Error('测试、登录、列出模型必须分别执行。使用 --help 查看用法。');
   }
-  const caseId = positionals[0];
+  if (values.continue && (positionals.length || values.login || values['list-models'] || values.provider || values.model || values.thinking)) {
+    throw new Error('--continue 沿用原轮次的渠道、模型和 thinking，不能同时启动新任务或修改模型。');
+  }
+  const resumeDir = values.continue ? fs.realpathSync(path.resolve(projectDir, values.continue)) : null;
+  if (resumeDir) {
+    const relative = path.relative(fs.realpathSync(path.join(projectDir, 'runs')), resumeDir);
+    if (relative.startsWith('..') || path.isAbsolute(relative) || relative.split(path.sep).length !== 3) throw new Error('继续路径必须是 runs 下的测试轮次目录。');
+  }
+  const previous = resumeDir ? readJson(path.join(resumeDir, 'meta.json')) : null;
+  const caseId = previous?.caseId ?? positionals[0];
   if (caseId && !Object.hasOwn(cases, caseId)) throw new Error(`未知用例：${caseId}`);
   const config = readJson(path.join(harnessDir, 'config.json'), {});
-  const provider = values.provider ?? config.provider;
-  const modelId = values.model ?? config.model;
-  const requestedThinking = values.thinking ?? config.thinking ?? 'high';
+  const provider = previous?.requestedProvider ?? previous?.model?.provider ?? values.provider ?? config.provider;
+  const modelId = previous?.requestedModel ?? previous?.model?.id ?? values.model ?? config.model;
+  const requestedThinking = previous?.requestedThinking ?? values.thinking ?? config.thinking ?? 'high';
   if (!['off', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max'].includes(requestedThinking)) {
     throw new Error(`无效 thinking 等级：${requestedThinking}`);
   }
@@ -88,6 +101,7 @@ proxy：127.0.0.1:7890 或 HTTP/HTTPS URL；仅本次生效，省略时沿用环
   if (caseId) {
     model = models.getModel(provider, modelId);
     if (!model) throw new Error(`未知模型：${provider}/${modelId}。使用 --list-models 或配置 .agent/models.json。`);
+    if (previous?.model) model = { ...model, ...previous.model };
     if (!model.input.includes('image')) throw new Error(`${provider}/${modelId} 被标记为纯文本模型，不能接收参考图；不分配测试轮次。`);
     if (!await models.checkAuth(provider)) throw new Error(`${provider} 尚未配置鉴权。请先 --login 或设置渠道密钥环境变量。`);
   }
@@ -99,9 +113,10 @@ proxy：127.0.0.1:7890 或 HTTP/HTTPS URL；仅本次生效，省略时沿用环
   install();
   try {
     if (values.login) { await login(models, values.login, values['auth-method']); return 0; }
-    const thinking = clampThinkingLevel(model, requestedThinking);
+    const thinking = previous?.effectiveThinking ?? clampThinkingLevel(model, requestedThinking);
     if (thinking !== requestedThinking) console.error(`thinking：${requestedThinking} → ${thinking}（模型支持范围）`);
-    const transportPath = config.transports?.[provider];
+    const transportPath = typeof previous?.transportCompatibility === 'object'
+      ? previous.transportCompatibility?.module : config.transports?.[provider];
     let wrapFetch = fetch => fetch;
     let transport = null;
     if (transportPath) {
@@ -110,65 +125,92 @@ proxy：127.0.0.1:7890 或 HTTP/HTTPS URL；仅本次生效，省略时沿用环
       if (typeof wrapFetch !== 'function') throw new Error(`${transportPath} 必须导出 wrapFetch(fetch)。`);
       transport = { module: transportPath, sha256: sha256(fs.readFileSync(file)) };
     }
-    return await runCase({ caseId, testCase: cases[caseId], model, models, requestedThinking, thinking, wrapFetch, transport });
+    return await runCase({ caseId, testCase: cases[caseId], model, models, requestedThinking, thinking, wrapFetch, transport, resumeDir });
   } finally {
     await dispatcher.destroy();
   }
 }
 
-async function runCase({ caseId, testCase, model, models, requestedThinking, thinking, wrapFetch, transport }) {
-  const sourceImage = path.join(projectDir, testCase.image);
-  const bytes = fs.readFileSync(sourceImage);
-  const mimeType = detectSupportedImageMimeType(bytes);
-  if (!mimeType) throw new Error(`不支持的参考图格式：${testCase.image}`);
-  const image = await processImage(bytes, mimeType, { autoResizeImages: true });
-  if (!image.ok) throw new Error(image.message);
-  const prompt = fs.readFileSync(path.join(harnessDir, 'prompt.txt'), 'utf8')
-    .replaceAll('{{width}}', String(testCase.width)).replaceAll('{{height}}', String(testCase.height));
-  const modelDir = path.join(projectDir, 'runs', caseId, `${encodeURIComponent(model.provider)}--${encodeURIComponent(model.id)}`);
-  fs.mkdirSync(modelDir, { recursive: true });
-  let runDir;
-  for (let round = 1; ; round++) {
-    runDir = path.join(modelDir, String(round).padStart(3, '0'));
-    try { fs.mkdirSync(runDir); break; }
-    catch (error) { if (error.code !== 'EEXIST') throw error; }
+async function runCase(options) {
+  const { caseId, model, resumeDir } = options;
+  let runDir = resumeDir;
+  if (!runDir) {
+    const modelDir = path.join(projectDir, 'runs', caseId, `${encodeURIComponent(model.provider)}--${encodeURIComponent(model.id)}`);
+    fs.mkdirSync(modelDir, { recursive: true });
+    for (let round = 1; ; round++) {
+      runDir = path.join(modelDir, String(round).padStart(3, '0'));
+      try { fs.mkdirSync(runDir); break; }
+      catch (error) { if (error.code !== 'EEXIST') throw error; }
+    }
   }
+  const release = await lockfile.lock(runDir);
+  try { return await executeRun({ ...options, runDir }); }
+  finally { await release(); }
+}
+
+async function executeRun({ caseId, testCase, model, models, requestedThinking, thinking, wrapFetch, transport, resumeDir, runDir }) {
   const workDir = path.join(runDir, 'work');
   const sessionDir = path.join(runDir, 'sessions');
-  fs.mkdirSync(workDir);
-  fs.mkdirSync(sessionDir);
-  const reference = path.join(runDir, `reference${path.extname(sourceImage)}`);
-  fs.writeFileSync(reference, bytes);
-  fs.writeFileSync(path.join(runDir, 'prompt.txt'), prompt);
-  // Preserve the old blank-override and @file envelope, including whitespace.
-  const systemPrompt = ` \nCurrent working directory: ${workDir.replaceAll('\\', '/')}\n`;
-  const userPrompt = `<file name="${reference}">${image.hints.join('\n')}</file>\n${prompt}`;
-  fs.writeFileSync(path.join(runDir, 'system-prompt.txt'), systemPrompt);
-  const sessionId = randomUUID();
   const sessionFile = path.join(sessionDir, 'session.jsonl');
+  const restored = resumeDir ? loadSession(runDir) : null;
+  let image, userPrompt, meta;
+  const systemPrompt = restored?.systemPrompt ?? ` \nCurrent working directory: ${workDir.replaceAll('\\', '/')}\n`;
+  const sessionId = restored?.header.id ?? randomUUID();
+  if (restored) {
+    meta = readJson(path.join(runDir, 'meta.json'));
+    fs.accessSync(workDir);
+  } else {
+    const sourceImage = path.join(projectDir, testCase.image);
+    const bytes = fs.readFileSync(sourceImage);
+    const mimeType = detectSupportedImageMimeType(bytes);
+    if (!mimeType) throw new Error(`不支持的参考图格式：${testCase.image}`);
+    image = await processImage(bytes, mimeType, { autoResizeImages: true });
+    if (!image.ok) throw new Error(image.message);
+    const prompt = fs.readFileSync(path.join(harnessDir, 'prompt.txt'), 'utf8')
+      .replaceAll('{{width}}', String(testCase.width)).replaceAll('{{height}}', String(testCase.height));
+    fs.mkdirSync(workDir);
+    fs.mkdirSync(sessionDir);
+    const reference = path.join(runDir, `reference${path.extname(sourceImage)}`);
+    fs.writeFileSync(reference, bytes);
+    fs.writeFileSync(path.join(runDir, 'prompt.txt'), prompt);
+    fs.writeFileSync(path.join(runDir, 'system-prompt.txt'), systemPrompt);
+    userPrompt = `<file name="${reference}">${image.hints.join('\n')}</file>\n${prompt}`;
+    meta = {
+      caseId, createdAt: new Date().toISOString(), harnessVersion: 2,
+      packages: readJson(path.join(harnessDir, 'package.json')).dependencies,
+      systemPromptMode: 'cwd-only',
+      requestedProvider: model.provider, requestedModel: model.id, requestedThinking,
+      requestOptions, toolExecution: 'parallel', image: testCase.image, imageSha256: sha256(bytes),
+      sentImageSha256: sha256(Buffer.from(image.data, 'base64')), sentImageMimeType: image.mimeType,
+      width: testCase.width, height: testCase.height, output: 'work/index.html', status: 'running',
+    };
+  }
+  meta.model ??= { id: model.id, provider: model.provider, api: model.api, input: model.input, reasoning: model.reasoning,
+    contextWindow: model.contextWindow, maxTokens: model.maxTokens, thinkingLevelMap: model.thinkingLevelMap,
+    compat: model.compat, samplingParams: model.samplingParams };
+  meta.effectiveThinking = thinking;
+  meta.transportCompatibility = transport;
   const { tools, cleanup } = createTools(workDir, {
     PI_SESSION_ID: sessionId, PI_SESSION_FILE: sessionFile, PI_PROVIDER: model.provider,
     PI_MODEL: model.id, PI_REASONING_LEVEL: thinking,
   });
   const toolDefinitions = tools.map(({ name, description, parameters }) => ({ name, description, parameters }));
-  writeJson(path.join(runDir, 'tools.json'), toolDefinitions);
-  const meta = {
-    caseId, createdAt: new Date().toISOString(), harnessVersion: 2,
-    packages: readJson(path.join(harnessDir, 'package.json')).dependencies,
-    systemPromptMode: 'cwd-only', transportCompatibility: transport,
-    requestedProvider: model.provider, requestedModel: model.id, requestedThinking, effectiveThinking: thinking,
-    model: { id: model.id, provider: model.provider, api: model.api, input: model.input, reasoning: model.reasoning,
-      contextWindow: model.contextWindow, maxTokens: model.maxTokens, thinkingLevelMap: model.thinkingLevelMap,
-      compat: model.compat, samplingParams: model.samplingParams },
-    requestOptions, toolExecution: 'parallel', image: testCase.image, imageSha256: sha256(bytes),
-    sentImageSha256: sha256(Buffer.from(image.data, 'base64')), sentImageMimeType: image.mimeType,
-    width: testCase.width, height: testCase.height, output: 'work/index.html', status: 'running',
-  };
+  if (!restored) writeJson(path.join(runDir, 'tools.json'), toolDefinitions);
   const saveMeta = () => writeJson(path.join(runDir, 'meta.json'), meta);
   const log = event => fs.appendFileSync(sessionFile, `${redact(JSON.stringify(event))}\n`, { mode: 0o600 });
+  if (!restored || restored.file !== sessionFile) {
+    log({ type: 'session', version: 1, id: sessionId, timestamp: meta.createdAt, cwd: workDir, systemPrompt, tools: toolDefinitions });
+    for (const message of restored?.messages ?? []) log({ type: 'message', message });
+  } else if (restored.needsNewline) fs.appendFileSync(sessionFile, '\n');
+  if (restored) {
+    meta.resumedAt = new Date().toISOString();
+    log({ type: 'run_resume', timestamp: meta.resumedAt, previousStatus: meta.status, previousError: meta.error });
+    delete meta.error;
+    delete meta.finishedAt;
+  }
+  meta.status = 'running';
   saveMeta();
-  log({ type: 'session', version: 1, id: sessionId, timestamp: meta.createdAt, cwd: workDir, systemPrompt, tools: toolDefinitions });
-  let requests = 0;
+  let requests = restored?.requests ?? 0;
   let fetch;
   const baseFetch = async (input, init) => {
     const headers = new Headers(init?.headers ?? (input instanceof Request ? input.headers : undefined));
@@ -195,9 +237,11 @@ async function runCase({ caseId, testCase, model, models, requestedThinking, thi
     return response;
   };
   const agent = new Agent({
-    initialState: { systemPrompt, model, thinkingLevel: thinking, tools },
+    initialState: { systemPrompt, model, thinkingLevel: thinking, tools, messages: restored?.messages ?? [] },
     sessionId, toolExecution: 'parallel',
-    streamFn: (activeModel, context, options) => models.streamSimple(activeModel, context, {
+    streamFn: (activeModel, context, options) => models.streamSimple(activeModel, {
+      ...context, messages: deduplicateImages(context.messages),
+    }, {
       ...options, ...requestOptions,
       fetch: (input, init) => {
         const signal = init?.signal ?? (input instanceof Request ? input.signal : undefined);
@@ -205,8 +249,8 @@ async function runCase({ caseId, testCase, model, models, requestedThinking, thi
       },
     }),
   });
-  let turns = 0;
-  const usage = { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, totalTokens: 0 };
+  let turns = restored?.turns ?? 0;
+  const usage = restored?.usage ?? { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, totalTokens: 0 };
   agent.subscribe(event => {
     if (event.type === 'message_end') {
       log({ type: 'message', message: event.message });
@@ -231,7 +275,8 @@ async function runCase({ caseId, testCase, model, models, requestedThinking, thi
   try {
     fetch = wrapFetch(baseFetch);
     if (typeof fetch !== 'function') throw new Error('wrapFetch 必须返回 fetch 函数。');
-    await agent.prompt(userPrompt, [{ type: 'image', data: image.data, mimeType: image.mimeType }]);
+    if (restored) await agent.prompt('继续');
+    else await agent.prompt(userPrompt, [{ type: 'image', data: image.data, mimeType: image.mimeType }]);
     const last = agent.state.messages.at(-1);
     if (interrupted || last?.stopReason === 'aborted') throw new Error('测试已中断。');
     if (last?.role !== 'assistant' || last.stopReason !== 'stop') {

@@ -1,0 +1,72 @@
+{
+  "caseId": "03-complex-scene",
+  "createdAt": "2026-09-26T06:29:53.498Z",
+  "harnessVersion": 2,
+  "packages": {
+    "@anthropic-ai/sdk": "0.123.0",
+    "@earendil-works/pi-agent-core": "0.85.1",
+    "@earendil-works/pi-ai": "0.85.1",
+    "@silvia-odwyer/photon-node": "0.3.4",
+    "proper-lockfile": "4.1.2",
+    "undici": "8.9.0"
+  },
+  "systemPromptMode": "cwd-only",
+  "requestedProvider": "openrouter",
+  "requestedModel": "anthropic/claude-opus-5.5",
+  "requestedThinking": "max",
+  "requestOptions": {
+    "transport": "sse",
+    "cacheRetention": "short",
+    "maxRetries": 0,
+    "maxRetryDelayMs": 60000,
+    "timeoutMs": 300000
+  },
+  "toolExecution": "parallel",
+  "image": "03-complex-scene/1788282455641.png",
+  "imageSha256": "aa3d84f0bc254055e9a42dd11caba009fdc5d4a4d3160618d457a21c9e5bbfc1",
+  "sentImageSha256": "aa3d84f0bc254055e9a42dd11caba009fdc5d4a4d3160618d457a21c9e5bbfc1",
+  "sentImageMimeType": "image/png",
+  "width": 1088,
+  "height": 1440,
+  "output": "work/index.html",
+  "status": "completed",
+  "model": {
+    "id": "anthropic/claude-opus-5.5",
+    "provider": "openrouter",
+    "api": "anthropic-messages",
+    "input": [
+      "text",
+      "image"
+    ],
+    "reasoning": true,
+    "contextWindow": 1000000,
+    "maxTokens": 128000,
+    "thinkingLevelMap": {
+      "off": null,
+      "minimal": null,
+      "low": "low",
+      "medium": "medium",
+      "high": "high",
+      "xhigh": "xhigh",
+      "max": "max"
+    },
+    "compat": {
+      "supportsMidConvoEffort": true,
+      "forceAdaptiveThinking": true,
+      "supportsTemperature": false
+    }
+  },
+  "effectiveThinking": "max",
+  "transportCompatibility": null,
+  "turns": 49,
+  "httpRequests": 49,
+  "usage": {
+    "input": 96,
+    "output": 310013,
+    "cacheRead": 2769303,
+    "cacheWrite": 557789,
+    "totalTokens": 3637201
+  },
+  "resumedAt": "2026-09-26T07:01:34.055Z",
+  "finishedAt": "2026-09-26T07:54:43.630Z"
+}

@@ -128,6 +128,8 @@ function controls() {
   $('stop-workspace').disabled = working || job?.state === 'stopping';
   $('stop-detail').hidden = !(job?.active && selectedRun === job.runId);
   $('stop-detail').disabled = working || job?.state === 'stopping';
+  $('continue-detail').disabled = busy || !detail?.canContinue;
+  $('continue-detail').title = detail?.canContinue ? '在原会话中发送“继续”，会继续产生模型费用' : '运行中或缺少会话记录，暂时不能继续';
   $('active-job').hidden = !job;
   if (job) $('active-job').textContent = `${statusNames[job.state] ?? job.state}${job.progress?.tool ? ` · ${job.progress.tool}` : ''} ↗`;
   for (const button of document.querySelectorAll('[data-auth], [data-method], [data-delete-provider]')) button.disabled = busy;
@@ -177,8 +179,9 @@ function selectRun(id) {
   refreshDetail().catch(error => toast(error.message, true));
 }
 function duration(run) {
-  if (!run.createdAt || (!run.finishedAt && run.status !== 'running')) return '—';
-  const seconds = Math.max(0, Math.floor(((run.finishedAt ? new Date(run.finishedAt).getTime() : Date.now()) - new Date(run.createdAt).getTime()) / 1000));
+  const startedAt = run.resumedAt ?? run.createdAt;
+  if (!startedAt || (!run.finishedAt && run.status !== 'running')) return '—';
+  const seconds = Math.max(0, Math.floor(((run.finishedAt ? new Date(run.finishedAt).getTime() : Date.now()) - new Date(startedAt).getTime()) / 1000));
   return seconds < 60 ? `${seconds}s` : `${Math.floor(seconds / 60)}m ${seconds % 60}s`;
 }
 function scrollContent(element, content, html = false) {
@@ -343,6 +346,15 @@ async function stop() {
 }
 $('stop-workspace').addEventListener('click', () => action(stop));
 $('stop-detail').addEventListener('click', () => action(stop));
+$('continue-detail').addEventListener('click', () => action(async () => {
+  if (!detail?.canContinue || detail.id !== selectedRun) return;
+  const id = detail.id;
+  if (!confirm(`继续此任务？\n${detail.provider} / ${detail.model}\n${detail.path}\n\n沿用原会话、模型和工作目录，只追加一句“继续”。已有文件可能被修改，并会继续产生模型费用。`)) return;
+  job = await request('/api/runs/continue', { id, proxy: $('proxy').value, confirm: true });
+  selectedRun = id; followJob = true; resetPreview();
+  await refreshRuns();
+  toast('已在原会话中发送“继续”。');
+}));
 $('active-job').addEventListener('click', () => {
   followJob = true; selectedRun = job?.runId ?? null; resetPreview(); location.hash = 'observe';
   refreshDetail().catch(error => toast(error.message, true));

@@ -8,6 +8,8 @@ import { EnvHttpProxyAgent, getGlobalDispatcher, setGlobalDispatcher, install } 
 import { FileCredentials, createRedactor } from './credentials.mjs';
 import { loadModels, readJson } from './models.mjs';
 import { builtinProviders } from '@earendil-works/pi-ai/providers/all';
+import lockfile from 'proper-lockfile';
+import { sessionFile, loadSession } from './sessions.mjs';
 
 const root = import.meta.dirname;
 const project = path.dirname(root);
@@ -76,14 +78,16 @@ function runSummary(dir, id) {
   try { meta = readJson(inside(dir, path.join(dir, 'meta.json'))); }
   catch { return null; } // A CLI process may be updating metadata; retry on the next poll.
   const active = job?.runId === id && job.process;
+  const running = !!active || lockfile.checkSync(dir);
   const parts = Buffer.from(id, 'base64url').toString('utf8').split('/');
   return {
     id, caseId: meta.caseId ?? parts[0], round: parts[2], path: `runs/${parts.join('/')}`,
     provider: meta.requestedProvider ?? meta.model?.provider ?? '',
     model: meta.requestedModel ?? meta.model?.id ?? '',
     thinking: meta.effectiveThinking ?? meta.requestedThinking,
-    requestedThinking: meta.requestedThinking, status: meta.status ?? 'legacy',
-    createdAt: meta.createdAt, finishedAt: meta.finishedAt,
+    requestedThinking: meta.requestedThinking, status: running ? 'running' : meta.status === 'running' ? 'aborted' : meta.status ?? 'legacy',
+    createdAt: meta.createdAt, finishedAt: meta.finishedAt, resumedAt: meta.resumedAt,
+    canContinue: !running && !!sessionFile(dir),
     width: meta.width, height: meta.height, error: meta.error,
     turns: active ? job.progress.turns : meta.turns,
     httpRequests: active ? job.progress.httpRequests : meta.httpRequests,
@@ -118,7 +122,10 @@ function tail(file, limit = 1024 * 1024) {
 }
 const clip = (value, limit = 4000) => value.length > limit ? `${value.slice(0, limit)}\n…（内容截断）` : value;
 function messageText(message) {
-  if (message.role === 'user') return '固定任务与参考图（图片数据省略）';
+  if (message.role === 'user') {
+    const content = typeof message.content === 'string' ? message.content : message.content?.map(block => block.type === 'text' ? block.text : '').join('');
+    return content === '继续' ? '继续' : '固定任务与参考图（图片数据省略）';
+  }
   if (typeof message.content === 'string') return clip(message.content);
   return clip((message.content ?? []).map(block => {
     if (block.type === 'text') return block.text;
@@ -147,6 +154,7 @@ function sessionEvents(dir) {
     } else if (event.type === 'http_response') {
       events.push({ kind: 'HTTP ←', text: `#${event.number} · ${event.status}`, error: event.status >= 400 });
     } else if (event.type === 'run_end') events.push({ kind: '结束', time: event.timestamp, text: event.status });
+    else if (event.type === 'run_resume') events.push({ kind: '继续', time: event.timestamp, text: '恢复原会话，追加用户消息“继续”。' });
   }
   return { events: events.slice(-80), truncated: data.truncated || events.length > 80 };
 }
@@ -272,10 +280,29 @@ async function startRun(data) {
   const proxy = proxyAddress(data.proxy);
   const args = [path.join(root, 'run.mjs'), caseId, '--provider', provider, '--model', model, '--thinking', thinking];
   if (proxy) args.push('--proxy', proxy);
+  return launchRun(args, { caseId, provider, model, thinking });
+}
+async function continueRun(data) {
+  idle();
+  if (data.confirm !== true) fail('继续任务会调用模型，需要明确确认。');
+  const id = text(data.id, '轮次');
+  const dir = runDirectory(id);
+  const summary = runSummary(dir, id);
+  if (!summary?.canContinue) fail('该任务正在运行或没有可恢复的会话。', 409);
+  const restored = loadSession(dir);
+  const selected = await validateSelection({ provider: summary.provider, model: summary.model, thinking: summary.requestedThinking ?? summary.thinking ?? 'high' });
+  if (!await selected.models.checkAuth(selected.provider)) fail('该渠道尚未配置鉴权。');
+  const args = [path.join(root, 'run.mjs'), '--continue', dir];
+  const proxy = proxyAddress(data.proxy);
+  if (proxy) args.push('--proxy', proxy);
+  return launchRun(args, { caseId: summary.caseId, provider: selected.provider, model: selected.model, thinking: summary.thinking,
+    runId: id, progress: { turns: restored.turns, httpRequests: restored.requests, usage: restored.usage } });
+}
+function launchRun(args, { caseId, provider, model, thinking, runId = null, progress = {} }) {
   if (closing) fail('服务正在关闭。', 503);
   const child = spawn(process.execPath, args, { cwd: project, stdio: ['ignore', 'pipe', 'pipe', 'ipc'] });
   const current = job = { id: randomUUID(), process: child, caseId, provider, model, thinking,
-    startedAt: new Date().toISOString(), state: 'starting', runId: null, progress: {}, output: '' };
+    startedAt: new Date().toISOString(), state: 'starting', runId, progress, output: '' };
   for (const stream of [child.stdout, child.stderr]) {
     stream.setEncoding('utf8');
     stream.on('data', chunk => { current.output = (current.output + chunk).slice(-120000); });
@@ -437,6 +464,7 @@ const server = http.createServer(async (req, res) => {
         if (url.pathname === '/api/providers') return send(res, await saveProvider(data));
         if (url.pathname === '/api/providers/delete') return send(res, await deleteProvider(data));
         if (url.pathname === '/api/runs') return send(res, await startRun(data), 202);
+        if (url.pathname === '/api/runs/continue') return send(res, await continueRun(data), 202);
         if (url.pathname === '/api/runs/stop') return send(res, stopRun(data));
         if (url.pathname === '/api/auth/start') return send(res, await startAuth(data), 202);
         if (url.pathname === '/api/auth/answer') return send(res, await authAction('answer', data));

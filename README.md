@@ -4,7 +4,7 @@
 
 ## 测试结果
 
-目前包含 **5 个模型 × 3 张图，共 15 份结果**。原始网页位于 [`runs/`](runs/)，下载后用浏览器打开对应的 `index.html`：
+目前包含 **6 个模型 × 3 张图，共 18 份结果**。原始网页位于 [`runs/`](runs/)，下载后用浏览器打开对应的 `index.html`：
 
 ```text
 runs/<用例>/<渠道--模型>/001/work/index.html
@@ -19,21 +19,22 @@ runs/<用例>/<渠道--模型>/001/work/index.html
 | `google/gemini-3.1-pro-preview` | OpenRouter |
 | `claude-fable-5-1` | SudoCode |
 | `DeepSeek-V4.1-Flash` | DeepSeek |
+| `anthropic/claude-opus-5.5` | OpenRouter |
 
 ## 横向对比
 
-每张图由左至右为：原图、Astra、Sol、Gemini、Claude、DeepSeek。点击图片查看原尺寸。
+每张图由左至右为：原图、Astra、Sol、Gemini、Claude Fable 5.1、DeepSeek、Claude Opus 5.5。点击图片查看原尺寸。
 
 ### 01 · 平面场景
 
-[![平面场景：原图与五个模型的横向对比](comparisons/01-flat-scene.webp)](comparisons/01-flat-scene.webp)
+[![平面场景：原图与六个模型的横向对比](comparisons/01-flat-scene.webp)](comparisons/01-flat-scene.webp)
 
 ### 02 · 立体角色
 
-[![立体角色：原图与五个模型的横向对比](comparisons/02-3d-character.webp)](comparisons/02-3d-character.webp)
+[![立体角色：原图与六个模型的横向对比](comparisons/02-3d-character.webp)](comparisons/02-3d-character.webp)
 
 ### 03 · 复杂场景
 
-[![复杂场景：原图与五个模型的横向对比](comparisons/03-complex-scene.webp)](comparisons/03-complex-scene.webp)
+[![复杂场景：原图与六个模型的横向对比](comparisons/03-complex-scene.webp)](comparisons/03-complex-scene.webp)
 
 **样本数较少，仅供娱乐。**

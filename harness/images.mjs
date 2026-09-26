@@ -1,6 +1,30 @@
 // Image processing extracted from @earendil-works/pi-coding-agent 0.85.1 (MIT).
 // Keep encoding, resizing and EXIF behavior; no TUI, worker or resource loader.
 import photonModule from '@silvia-odwyer/photon-node';
+import { createHash } from 'node:crypto';
+
+// Request-only transformation: keep stored messages and image bytes untouched.
+export function deduplicateImages(messages) {
+    const seen = new Set();
+    const result = messages.slice();
+    for (let i = messages.length - 1; i >= 0; i--) {
+        const message = messages[i];
+        if (!['user', 'toolResult'].includes(message.role) || !Array.isArray(message.content)) continue;
+        const content = message.content.slice();
+        let changed = false;
+        for (let j = content.length - 1; j >= 0; j--) {
+            const block = content[j];
+            if (block.type !== 'image') continue;
+            const hash = createHash('sha256').update(Buffer.from(block.data, 'base64')).digest('hex');
+            if (seen.has(hash)) {
+                content[j] = { type: 'text', text: '[Duplicate image omitted; the most recent copy of this image is retained in the conversation.]' };
+                changed = true;
+            } else seen.add(hash);
+        }
+        if (changed) result[i] = { ...message, content };
+    }
+    return result;
+}
 
 function readOrientationFromTiff(bytes, tiffStart) {
     if (tiffStart + 8 > bytes.length)

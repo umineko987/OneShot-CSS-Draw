@@ -1,0 +1,72 @@
+{
+  "caseId": "01-flat-scene",
+  "createdAt": "2026-09-25T19:36:30.905Z",
+  "harnessVersion": 2,
+  "packages": {
+    "@anthropic-ai/sdk": "0.123.0",
+    "@earendil-works/pi-agent-core": "0.85.1",
+    "@earendil-works/pi-ai": "0.85.1",
+    "@silvia-odwyer/photon-node": "0.3.4",
+    "proper-lockfile": "4.1.2",
+    "undici": "8.9.0"
+  },
+  "systemPromptMode": "cwd-only",
+  "transportCompatibility": null,
+  "requestedProvider": "openrouter",
+  "requestedModel": "anthropic/claude-opus-5.5",
+  "requestedThinking": "max",
+  "effectiveThinking": "max",
+  "model": {
+    "id": "anthropic/claude-opus-5.5",
+    "provider": "openrouter",
+    "api": "anthropic-messages",
+    "input": [
+      "text",
+      "image"
+    ],
+    "reasoning": true,
+    "contextWindow": 1000000,
+    "maxTokens": 128000,
+    "thinkingLevelMap": {
+      "off": null,
+      "minimal": null,
+      "low": "low",
+      "medium": "medium",
+      "high": "high",
+      "xhigh": "xhigh",
+      "max": "max"
+    },
+    "compat": {
+      "supportsMidConvoEffort": true,
+      "forceAdaptiveThinking": true,
+      "supportsTemperature": false
+    }
+  },
+  "requestOptions": {
+    "transport": "sse",
+    "cacheRetention": "short",
+    "maxRetries": 0,
+    "maxRetryDelayMs": 60000,
+    "timeoutMs": 300000
+  },
+  "toolExecution": "parallel",
+  "image": "01-flat-scene/IMG_20260904_171523.png",
+  "imageSha256": "43ccf60a28a52c2fbba7f45b7190edf3fe5e13a238a66be6d6fa04918bd5963e",
+  "sentImageSha256": "43ccf60a28a52c2fbba7f45b7190edf3fe5e13a238a66be6d6fa04918bd5963e",
+  "sentImageMimeType": "image/png",
+  "width": 1440,
+  "height": 805,
+  "output": "work/index.html",
+  "status": "completed",
+  "turns": 37,
+  "httpRequests": 37,
+  "usage": {
+    "input": 76,
+    "output": 178076,
+    "cacheRead": 4498580,
+    "cacheWrite": 363608,
+    "totalTokens": 5040340
+  },
+  "resumedAt": "2026-09-26T05:16:42.186Z",
+  "finishedAt": "2026-09-26T05:31:19.633Z"
+}

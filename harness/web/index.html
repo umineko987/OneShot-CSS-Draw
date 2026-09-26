@@ -63,7 +63,7 @@
           <section class="panel detail-panel">
             <div id="detail-empty" class="empty-state"><span class="empty-symbol">◷</span><h2>选择一轮，查看完整轨迹。</h2><p>旧结果只读；没有状态记录的轮次会标为“历史”。</p></div>
             <div id="run-detail" hidden>
-              <div class="detail-heading"><div><div id="detail-case" class="eyebrow"></div><h2 id="detail-model"></h2><p id="detail-path" class="mono muted small"></p></div><div class="detail-actions"><span id="detail-status"></span><button id="stop-detail" class="button danger small" hidden>停止</button></div></div>
+              <div class="detail-heading"><div><div id="detail-case" class="eyebrow"></div><h2 id="detail-model"></h2><p id="detail-path" class="mono muted small"></p></div><div class="detail-actions"><span id="detail-status"></span><button id="continue-detail" class="button primary small" disabled>继续</button><button id="stop-detail" class="button danger small" hidden>停止</button></div></div>
               <div id="metrics" class="metrics"></div><div id="detail-facts" class="detail-facts"></div><p id="detail-error" class="notice error" hidden></p>
               <div class="tabs" role="tablist" aria-label="观测内容"><button role="tab" id="tab-events" aria-controls="pane-events" aria-selected="true" data-pane="events">事件轨迹</button><button role="tab" id="tab-console" aria-controls="pane-console" aria-selected="false" data-pane="console">进程输出</button><button role="tab" id="tab-preview" aria-controls="pane-preview" aria-selected="false" data-pane="preview">对照预览</button></div>
               <div id="pane-events" role="tabpanel" aria-labelledby="tab-events"><div id="events" class="events"></div><p id="log-note" class="field-note log-note"></p></div>
